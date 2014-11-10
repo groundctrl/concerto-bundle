@@ -1,0 +1,26 @@
+{
+    "name": "groundctrl/concerto-bundle",
+    "description": "Multi Tenancy for Symfony + Doctrine",
+    "require": {
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.2"
+    },
+    "require-dev": {
+        "symfony/framework-bundle": "2.5.*",
+        "phpunit/phpunit": "~4.0",
+        "ptrofimov/xpmock": "~1.1",
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ctrl\\Bundle\\ConcertoBundle\\": "src"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cody Jennings",
+            "email": "cody.jennings@groundctrl.com"
+        }
+    ]
+}
