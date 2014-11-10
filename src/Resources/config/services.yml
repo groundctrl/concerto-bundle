@@ -1,0 +1,72 @@
+parameters:
+    concerto.controller.default_class: Ctrl\Bundle\ConcertoBundle\Controller\DefaultController
+    concerto.solos.hostname_solo_class:   Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo
+    concerto.solos.repository_solo_class:   Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo
+    concerto.repository.default_class: Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository
+    concerto.repository_factory.default_class: Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepositoryFactory
+    concerto.solo_factory.default_class: Ctrl\Bundle\ConcertoBundle\Solo\SoloFactory
+
+services:
+    concerto.soloist:
+        class: %concerto.soloist_class%
+        scope: request
+        synthetic: true
+        synchronized: true
+
+    concerto.controller:
+        class: %concerto.controller.default_class%
+        arguments:
+            - @templating
+            - @concerto.repository
+        synchronized: true
+        calls:
+            - [ setSoloist,    [ "@?concerto.soloist=" ] ]
+
+    concerto.repository_factory:
+        class: %concerto.repository_factory.default_class%
+
+    concerto.repository:
+        class: %concerto.repository.default_class%
+        factory_service: concerto.repository_factory
+        factory_method: getRepository
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %concerto.soloist_class%
+
+
+
+    concerto.listener.find_soloist:
+        class: Ctrl\Bundle\ConcertoBundle\EventListener\FindSoloistListener
+        arguments:
+            - @service_container
+            - @event_dispatcher
+            - @concerto.solo
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onEarlyKernelRequest, priority: 1  }
+
+    concerto.listener.conduct_em:
+        class: Ctrl\Bundle\ConcertoBundle\EventListener\ConductEntityManagerListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %concerto.soloist_class%
+        tags:
+            - { name: kernel.event_listener, event: soloist.found, method: onSoloistFound }
+
+    concerto.subscriber.claim_entity:
+        class: Ctrl\Bundle\ConcertoBundle\EventListener\ClaimEntitySubscriber
+        tags:
+            - { name: doctrine.event_subscriber}
+
+    #concerto.solos.hostname_solo:
+    #    class: %concerto.solos.hostname_solo_class%
+        #factory_service: concerto.solo_factory
+        #factory_method: createSolo
+    #    arguments:
+    #        - @concerto.repository
+    #        - %concerto.solos.hostname_solo.soloist_field%
+
+    concerto.solos.repository_solo:
+        class: Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo
+        arguments:
+            - @engine_tenant.repository.client
+            - forDomain

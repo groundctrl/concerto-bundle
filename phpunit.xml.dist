@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./src/Tests/bootstrap.php"
+         colors="true"
+         printerFile="vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrnter.php"
+         printerClass="NyanCat\PHPUnit\ResultPrinter">
+<testsuites>
+    <testsuite name="CtrlConcertoBundle test suite">
+        <directory suffix="Test.php">./src/Tests</directory>
+    </testsuite>
+</testsuites>
+
+<php>
+    <server name="KERNEL_DIR" value="./src/Tests/Functional/app" />
+</php>
+
+<filter>
+    <whitelist>
+        <directory>./</directory>
+        <exclude>
+            <directory>./src/Resources</directory>
+            <directory>./src/Tests</directory>
+            <directory>./vendor</directory>
+        </exclude>
+    </whitelist>
+</filter>
+</phpunit>

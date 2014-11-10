@@ -1,0 +1,3 @@
+concerto_homepage:
+    pattern:  /
+    defaults: { _controller: concerto.controller:indexAction }
