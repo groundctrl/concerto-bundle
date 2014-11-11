@@ -22,24 +22,15 @@ class ConcertoCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if ($container->getParameter('doctrine.orm.entity_manager.class') == 'Doctrine\\ORM\\EntityManager') {
-            $container->setParameter('doctrine.orm.entity_manager.class', 'Ctrl\Bundle\ConcertoBundle\ORM\Conductor');#'%synd_multitenant.em_class%');
+            $container->setParameter('doctrine.orm.entity_manager.class', 'Ctrl\Bundle\ConcertoBundle\ORM\Conductor');
         }
 
         if ($container->hasDefinition('doctrine.orm.default_entity_manager')) {
             $reference = $container->getDefinition('doctrine.orm.default_entity_manager');
 
-            $reference->addMethodCall('setConcertoRepositoryClassName',
-                [
-                    $container->getParameter('concerto.repository.default_class')
-                ]);
-        }
-
-        if($container->hasDefinition('concerto.soloist'))
-        {
-            //var_dump($container->get('concerto.soloist')); print("<br><br>");
-            #var_dump($container->getDefinition('concerto.soloist')); print("<br><br>");
-            #die;
-
+            $reference->addMethodCall('setConcertoRepositoryClassName', [
+                $container->getParameter('concerto.repository.default_class')
+            ]);
         }
     }
 }
