@@ -1,0 +1,35 @@
+concerto:
+    soloist_class: Engine\Bundle\TenantBundle\Entity\Client
+    solo_name: hostname
+    solos:
+        hostname:
+            arguments:
+                - @concerto_test_repository
+                - id
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+framework:
+    secret: 'ThisIsNotASecretKey'
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+liip_functional_test: ~
+
+services:
+    concerto_test_repository:
+        class:            Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository
+        factory_service:  doctrine.orm.entity_manager
+        factory_method:   getRepository
+        arguments:
+            - Ctrl\Bundle\ConcertoBundle\
