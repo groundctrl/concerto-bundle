@@ -16,7 +16,14 @@ doctrine:
                 path:     %kernel.cache_dir%/test.db
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        entity_managers:
+            default:
+                mappings:
+                    CtrlConcertoBundle:
+                        type: annotation
+                        prefix: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity
+                        dir: "%kernel.root_dir%/../../Fixtures/Entity/"
+                        is_bundle: false
 
 framework:
     secret: 'ThisIsNotASecretKey'
@@ -32,4 +39,4 @@ services:
         factory_service:  doctrine.orm.entity_manager
         factory_method:   getRepository
         arguments:
-            - Ctrl\Bundle\ConcertoBundle\
+            - Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\HostnameSoloist
