@@ -33,6 +33,13 @@ class ConductEntityManagerListener
      */
     public function onSoloistFound(SoloEvent $event)
     {
-        $this->em->setSoloist($event->getSoloist());
+        $soloist = $event->getSoloist();
+        $this->em->setSoloist($soloist);
+
+        $filters = $this->em->getFilters();
+        if ($filters->isEnabled('soloist')) {
+            $filter = $filters->getFilter('soloist');
+            $filter->setParameter("soloist_id", $soloist->getId());
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="./src/Tests/bootstrap.php"
-         colors="true"
-         printerClass="NyanCat\PHPUnit\ResultPrinter">
+         colors="true">
+         <!-- printerClass="NyanCat\PHPUnit\ResultPrinter" -->
 <testsuites>
     <testsuite name="CtrlConcertoBundle test suite">
         <directory suffix="Test.php">./src/Tests</directory>

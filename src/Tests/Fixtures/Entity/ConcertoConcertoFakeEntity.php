@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ConcertoConcertoFakeEntity extends ConcertoRegularFakeEntity implements SoloistAwareInterface
 {
-
     protected $soloist;
 
     public function getSoloist()

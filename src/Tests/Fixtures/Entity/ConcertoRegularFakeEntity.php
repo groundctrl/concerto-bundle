@@ -3,10 +3,10 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="reg_users")
  */
 class ConcertoRegularFakeEntity
 {
@@ -16,14 +16,28 @@ class ConcertoRegularFakeEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
-    public function __construct()
-    {
-        $this->id = rand(0,999);
-    }
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $name;
+
+    public $pubprop = 5;
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

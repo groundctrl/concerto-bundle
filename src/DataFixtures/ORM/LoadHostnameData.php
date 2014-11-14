@@ -11,9 +11,15 @@ class LoadHostnameData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $site = new HostnameSoloist();
-
         $site->setDomain('concerto.dev');
+        $manager->persist($site);
 
+        $site = new HostnameSoloist();
+        $site->setDomain('google.com');
+        $manager->persist($site);
+
+        $site = new HostnameSoloist();
+        $site->setDomain('symfony.com');
         $manager->persist($site);
 
         $manager->flush();

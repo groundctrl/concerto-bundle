@@ -2,47 +2,16 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests\ORM\Repository;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoWebTestCase;
 
-class ConcertoEntityRepositoryFunctionalTest extends WebTestCase
+class ConcertoEntityRepositoryFunctionalTest extends ConcertoWebTestCase
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @dataProvider someDomains
      */
-    private $em;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUp()
-    {
-        self::bootKernel();
-
-        $this->em = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager()
-        ;
-    }
-
-    public function testFindEntityById()
+    public function testFindReturnsTheCorrectEntity($id, $domainName)
     {
         $this->loadFixtures([ 'Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadHostnameData' ]);
-
-        /** @var \Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\HostnameSoloist $site */
-        $site = $this->em
-            ->getRepository('CtrlConcertoBundle:HostnameSoloist')
-            ->findOneByDomain('concerto.dev');
-        ;
-
-        $this->assertEquals('concerto.dev', $site->getDomain());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
-        $this->em->close();
+        $this->assertEquals($domainName, $this->em->find('CtrlConcertoBundle:HostnameSoloist', $id)->getDomain());
     }
 }
