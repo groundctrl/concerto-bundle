@@ -4,12 +4,9 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\Traits;
 
 use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareFacade;
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
-use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTraitFakeEntity;
-use Doctrine\Common\Persistence\Mapping\Driver\StaticPHPDriver;
-use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity;
-use Doctrine\ORM\UnitOfWork;
+use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestTraitEntity;
 
-class ConcertoMemberTraitTest extends ConcertoTestCase
+class SoloistAwareTraitTest extends ConcertoTestCase
 {
     /**
      * @expectedException \BadMethodCallException
@@ -17,7 +14,7 @@ class ConcertoMemberTraitTest extends ConcertoTestCase
      */
     function testListenersErrorProperlyWhenOnPropertyChangedCalledFromEntity()
     {
-        $sut = new ConcertoTraitFakeEntity();
+        $sut = new ConcertoTestTraitEntity();
         $sut->_onPropertyChanged(0,0,0);
     }
 
@@ -27,7 +24,7 @@ class ConcertoMemberTraitTest extends ConcertoTestCase
      */
     function testListenersErrorProperlyWhenOnPropertyChangedCalledFromFacade()
     {
-        $sut = new ConcertoTraitFakeEntity();
+        $sut = new ConcertoTestTraitEntity();
         $em = $this->createTestConductor();
         $meta = $em->getClassMetadata(get_class($sut));
 
@@ -37,7 +34,7 @@ class ConcertoMemberTraitTest extends ConcertoTestCase
 
     function testListenersWorkWhenPropertyChanges()
     {
-        $sut = new ConcertoTraitFakeEntity();
+        $sut = new ConcertoTestTraitEntity();
         $em = $this->createTestConductor();
         $meta = $em->getClassMetadata(get_class($sut));
 

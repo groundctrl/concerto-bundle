@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sites")
+ * @ORM\Table(name="fake_soloists")
  */
-class HostnameSoloist implements Soloist
+class ConcertoTestSoloist implements Soloist
 {
     /**
      * @var integer
@@ -26,6 +26,11 @@ class HostnameSoloist implements Soloist
      * @ORM\Column(name="domain", type="string", length=64)
      */
     protected $domain;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ConcertoTestSoloistLinkingEntity", mappedBy="soloist")
+     */
+    private $linkers;
 
     /**
      * @return int

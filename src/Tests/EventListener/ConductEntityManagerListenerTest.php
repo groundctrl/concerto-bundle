@@ -2,10 +2,10 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests\EventListener;
 
-use Ctrl\Bundle\ConcertoBundle\EventListener\ConductEntityManagerListener;
+use Ctrl\Bundle\ConcertoBundle\EventListener\ConductSoloistListener;
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
 
-class ConductEntityManagerListenerTest extends ConcertoTestCase
+class ConductSoloistListenerTest extends ConcertoTestCase
 {
     /** @var  \Ctrl\Bundle\ConcertoBundle\ORM\Conductor */
     public $emMock;
@@ -32,7 +32,9 @@ class ConductEntityManagerListenerTest extends ConcertoTestCase
             ->new()
         ;
 
-        $sut = new ConductEntityManagerListener($this->emMock, $this->repoClass);
+        $em = $this->createTestConductor();
+
+        $sut = new ConductSoloistListener($em, $this->repoClass);
         $sut->onSoloistFound($this->soloEventMock);
     }
 } 

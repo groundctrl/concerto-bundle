@@ -5,10 +5,10 @@ namespace Ctrl\Bundle\ConcertoBundle\Traits;
 use Doctrine\Common\PropertyChangedListener;
 
 /**
- * Class ConcertoMemberTrait
+ * Class SoloistAwareTrait
  *
  * A trait to minimize user involvement in setting up the Bundle.
- * If you add `use ConcertoMemberTrait;` to the entities which need
+ * If you add `use SoloistAwareTrait;` to the entities which need
  * to be persisted with Soloist, set its change-tracking policy
  * to "NOTIFY", and the Repository holding those entities is or
  * extends ConcertoEntityRepository, then everything should just
@@ -18,7 +18,7 @@ use Doctrine\Common\PropertyChangedListener;
  * the change-tracking policy and Repository as per above. You would
  * then need implement your own _onPropertyChanged logic.
  */
-trait ConcertoMemberTrait
+trait SoloistAwareTrait
 {
     /** @var PropertyChangedListener[] */
     protected $_concerto_listeners = [];

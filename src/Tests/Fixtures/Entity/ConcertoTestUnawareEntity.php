@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="reg_users")
+ * @ORM\Table(name="concerto_regular")
  */
-class ConcertoRegularFakeEntity
+class ConcertoTestUnawareEntity
 {
     /**
      * @var integer

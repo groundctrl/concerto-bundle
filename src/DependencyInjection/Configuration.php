@@ -79,8 +79,11 @@ class Configuration implements ConfigurationInterface
                         ->beforeNormalization()
                             ->ifTrue(function($v) { return $v['class'] === null && $v['service'] === null; })
                             ->then(  function($v) {
-                                return [ 'class'     => $this->checkSolosFor($this->chosenSoloName),
-                                         'arguments' => $v['arguments'],
+                                list($maybePredefinedSolo, $maybePredefinedArgs)
+                                    = $this->checkSolosFor($this->chosenSoloName);
+                                $args = array_merge($maybePredefinedArgs, $v['arguments']);
+                                return [ 'class'     => $maybePredefinedSolo,
+                                         'arguments' => $args,
                                          'service'   => $v['service'] ];
                             })
                         ->end()
@@ -112,9 +115,14 @@ class Configuration implements ConfigurationInterface
 
     public function checkSolosFor($name)
     {
-        $defined = [ 'hostname'   => 'Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo' ,
-                     'repository' => 'Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo' , ];
+        $definedSolos = [ 'hostname'   => 'Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo' ,
+                          'repository' => 'Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo' , ];
 
-        return array_key_exists($name, $defined) ? $defined[$name] : null;
+        $definedArgs  = [ 'hostname'   => '@concerto.soloist_repository', ];
+
+        $retSolo = array_key_exists($name, $definedSolos) ? $definedSolos[$name] : null;
+        $retArgs = array_key_exists($name, $definedArgs)  ? [$definedArgs[$name]]  : [];
+
+        return [$retSolo, $retArgs];
     }
 }

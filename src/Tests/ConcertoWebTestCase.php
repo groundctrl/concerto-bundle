@@ -12,6 +12,11 @@ class ConcertoWebTestCase extends WebTestCase
     public $em;
 
     /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
+     */
+    public $dispatcher;
+
+    /**
      * {@inheritDoc}
      */
     public function setUp()
@@ -22,22 +27,20 @@ class ConcertoWebTestCase extends WebTestCase
             ->get('doctrine')
             ->getManager()
         ;
+
+        /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
+        $this->dispatcher = static::$kernel->getContainer()
+            ->get('event_dispatcher');
+
+
     }
 
     public function someDomains()
     {
         // LISTOF [ID, DOMAIN_NAME] COMING FROM LOADHOSTNAMEDATA
-        return [ [ 1, 'concerto.dev' ],
-                 [ 2, 'google.com'   ],
-                 [ 3, 'symfony.com'  ] ];
-    }
-
-    public function someRegularEntities()
-    {
-        //LISTOF [ID, ENTITY_NAME] COMING FROM LOADENTITYDATA
-        return [ [ 1, 'Alice' ],
-                 [ 2, 'Bob'   ],
-                 [ 3, 'Carl'  ] ];
+        return [ [ 1, 'alice.com' ],
+                 [ 2, 'bob.com'   ],
+                 [ 3, 'carl.com'  ] ];
     }
 
     /**
@@ -45,7 +48,7 @@ class ConcertoWebTestCase extends WebTestCase
      */
     protected function tearDown()
     {
-        parent::tearDown();
         $this->em->close();
+        parent::tearDown();
     }
 }

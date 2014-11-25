@@ -25,13 +25,13 @@ class ConcertoTestCase extends \PHPUnit_Framework_TestCase
         //ECN: EntityClassName
         //RCN: RepositoryClassName
 
-        $concertoECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity';
+        $concertoECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity';
         $concertoRCN = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
 
         $customECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoCustomFakeEntity';
         $customRCN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository';
 
-        $regularECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoRegularFakeEntity';
+        $regularECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity';
         $regularRCN = 'Doctrine\ORM\EntityRepository';
 
         return [

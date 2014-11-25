@@ -1,11 +1,14 @@
 concerto:
-    soloist_class: Engine\Bundle\TenantBundle\Entity\Client
+    soloist_class: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestSoloist
     solo_name: hostname
     solos:
         hostname:
             arguments:
-                - @concerto_test_repository
-                - id
+                - domain
+        repository:
+            arguments:
+                - @concerto.FUNCTEST.reposolo_repository
+                - findClientByDomain
 
 doctrine:
     dbal:
@@ -24,6 +27,12 @@ doctrine:
                         prefix: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity
                         dir: "%kernel.root_dir%/../../Fixtures/Entity/"
                         is_bundle: false
+                filters:
+                    soloist:
+                        class: Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter
+                        enabled: true
+                        parameters:
+                            soloist_id: ~
 
 framework:
     secret: 'ThisIsNotASecretKey'
@@ -34,9 +43,9 @@ framework:
 liip_functional_test: ~
 
 services:
-    concerto_test_repository:
-        class:            Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository
-        factory_service:  doctrine.orm.entity_manager
-        factory_method:   getRepository
+    concerto.FUNCTEST.reposolo_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
         arguments:
-            - Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\HostnameSoloist
+            - Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestSoloistLinkingEntity

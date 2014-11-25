@@ -1,27 +1,9 @@
-parameters:
-    concerto.solos.hostname_solo_class:   Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo
-    concerto.solos.repository_solo_class:   Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo
-    concerto.repository.default_class: Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository
-    concerto.repository_factory.default_class: Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepositoryFactory
-    concerto.solo_factory.default_class: Ctrl\Bundle\ConcertoBundle\Solo\SoloFactory
-
 services:
     concerto.soloist:
         class: %concerto.soloist_class%
         scope: request
         synthetic: true
         synchronized: true
-
-    concerto.repository_factory:
-        class: %concerto.repository_factory.default_class%
-
-    concerto.repository:
-        class: %concerto.repository.default_class%
-        factory_service: concerto.repository_factory
-        factory_method: getRepository
-        arguments:
-            - @doctrine.orm.entity_manager
-            - %concerto.soloist_class%
 
     concerto.listener.find_soloist:
         class: Ctrl\Bundle\ConcertoBundle\EventListener\FindSoloistListener
@@ -31,9 +13,9 @@ services:
             - @concerto.solo
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onEarlyKernelRequest, priority: 1  }
-
-    concerto.listener.conduct_em:
-        class: Ctrl\Bundle\ConcertoBundle\EventListener\ConductEntityManagerListener
+#@TODO: change ConductSoloistListener and similarly named things to be something like... addSoloistListener or conductSoloistListener.
+    concerto.listener.conduct_soloist:
+        class: Ctrl\Bundle\ConcertoBundle\EventListener\ConductSoloistListener
         arguments:
             - @doctrine.orm.entity_manager
             - %concerto.soloist_class%
@@ -44,3 +26,10 @@ services:
         class: Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber
         tags:
             - { name: doctrine.event_subscriber}
+
+    concerto.soloist_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - %concerto.soloist_class%

@@ -30,8 +30,6 @@ class Conductor extends EntityManager
     /** @var string */
     protected $soloistClassName;
 
-    /** @var string */
-    protected $concertoRepositoryClassName = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
 
     /**
      * Factory method to create Conductor instances.
@@ -65,6 +63,7 @@ class Conductor extends EntityManager
         }
 
         $config->setRepositoryFactory(new ConcertoEntityRepositoryFactory());
+        $config->addFilter('soloist', 'Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter');
 
         return new self($conn, $config, $eventManager == null ? new EventManager() : $eventManager);
     }
@@ -113,34 +112,6 @@ class Conductor extends EntityManager
     {
         $this->soloistClassName = $className;
     }
-
-    /**
-     * Gets the name of the default repository to use for implementers of SoloistAwareInterface.
-     *
-     * @return string The name of default repository for implementers of SoloistAwareInterface.
-     */
-    public function getConcertoRepositoryClassName()
-    {
-        return $this->concertoRepositoryClassName;
-    }
-
-    /**
-     * Sets the classname to use when creating a new repository for implementers
-     * of SoloistAwareInterface. Set this up in the Bundle's configuration.
-     * ConcertoEntityRepositoryFactory will make this class if the
-     * SoloistAwareInterface has no custom repository.
-     *
-     * @param string $name The name of the desired repository.
-     */
-    public function setConcertoRepositoryClassName($name)
-    {
-        if($this->concertoRepositoryClassName == $name) {
-            return;
-        } else {
-            $this->concertoRepositoryClassName = $name;
-        }
-    }
-
 
     /** {@inheritdoc} */
     public function  persist($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }

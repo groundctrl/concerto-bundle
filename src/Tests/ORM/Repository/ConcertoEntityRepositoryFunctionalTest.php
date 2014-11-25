@@ -11,7 +11,7 @@ class ConcertoEntityRepositoryFunctionalTest extends ConcertoWebTestCase
      */
     public function testFindReturnsTheCorrectEntity($id, $domainName)
     {
-        $this->loadFixtures([ 'Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadHostnameData' ]);
-        $this->assertEquals($domainName, $this->em->find('CtrlConcertoBundle:HostnameSoloist', $id)->getDomain());
+        $this->loadFixtures([ 'Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadSoloistUnawareEntityData' ]);
+        $this->assertEquals($domainName, $this->em->find('CtrlConcertoBundle:ConcertoTestSoloist', $id)->getDomain());
     }
 }

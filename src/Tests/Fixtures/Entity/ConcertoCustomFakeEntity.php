@@ -4,14 +4,13 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity;
 
 use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
-use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository;
 use Doctrine\Common\PropertyChangedListener;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository")
  */
-class ConcertoCustomFakeEntity extends ConcertoRegularFakeEntity implements SoloistAwareInterface
+class ConcertoCustomFakeEntity extends ConcertoTestUnawareEntity implements SoloistAwareInterface
 {
 
     protected $soloist;

@@ -3,9 +3,10 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository;
 
 
+use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository;
 use Doctrine\ORM\EntityRepository;
 
-class ConcertoFakeEntityCustomRepository extends EntityRepository
+class ConcertoFakeEntityCustomRepository extends ConcertoEntityRepository
 {
     protected $soloistField;
 
