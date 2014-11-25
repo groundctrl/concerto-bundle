@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="concerto_regular")
+ * @ORM\Table(name="concerto_unaware")
  */
 class ConcertoTestUnawareEntity
 {

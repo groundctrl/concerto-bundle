@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fake_soloists")
+ * @ORM\Table(name="concerto_soloist")
  */
 class ConcertoTestSoloist implements Soloist
 {

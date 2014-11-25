@@ -2,9 +2,7 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository;
 
-
 use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository;
-use Doctrine\ORM\EntityRepository;
 
 class ConcertoTestCustomAwareEntityRepository extends ConcertoEntityRepository
 {
@@ -23,9 +21,4 @@ class ConcertoTestCustomAwareEntityRepository extends ConcertoEntityRepository
             $this->soloistField = $sf;
         }
     }
-
-    public function repoSoloMethod($str)
-    {
-
-    }
-} 
+}
