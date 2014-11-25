@@ -4,6 +4,7 @@ namespace Ctrl\Bundle\ConcertoBundle\Solo;
 
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Interface SoloInterface

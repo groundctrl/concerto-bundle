@@ -6,25 +6,26 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-/**
- * This is the class that validates and merges configuration from your app/config files
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
- */
 class Configuration implements ConfigurationInterface
 {
+    protected $alias;
     protected $chosenSoloName = null;
+
+    /**
+     * @param string $alias
+     */
+    public function __construct($alias)
+    {
+        $this->alias = $alias;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('concerto');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode = $treeBuilder->root($this->alias);
 
         $rootNode
             ->children()
@@ -78,8 +79,11 @@ class Configuration implements ConfigurationInterface
                         ->beforeNormalization()
                             ->ifTrue(function($v) { return $v['class'] === null && $v['service'] === null; })
                             ->then(  function($v) {
-                                return [ 'class'     => $this->checkSolosFor($this->chosenSoloName),
-                                         'arguments' => $v['arguments'],
+                                list($maybePredefinedSolo, $maybePredefinedArgs)
+                                    = $this->checkSolosFor($this->chosenSoloName);
+                                $args = array_merge($maybePredefinedArgs, $v['arguments']);
+                                return [ 'class'     => $maybePredefinedSolo,
+                                         'arguments' => $args,
                                          'service'   => $v['service'] ];
                             })
                         ->end()
@@ -111,9 +115,14 @@ class Configuration implements ConfigurationInterface
 
     public function checkSolosFor($name)
     {
-        $defined = [ 'hostname'   => 'Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo' ,
-                     'repository' => 'Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo' , ];
+        $definedSolos = [ 'hostname'   => 'Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo' ,
+                          'repository' => 'Ctrl\Bundle\ConcertoBundle\Solo\RepositorySolo' , ];
 
-        return array_key_exists($name, $defined) ? $defined[$name] : null;
+        $definedArgs  = [ 'hostname'   => '@concerto.soloist_repository', ];
+
+        $retSolo = array_key_exists($name, $definedSolos) ? $definedSolos[$name] : null;
+        $retArgs = array_key_exists($name, $definedArgs)  ? [$definedArgs[$name]]  : [];
+
+        return [$retSolo, $retArgs];
     }
 }

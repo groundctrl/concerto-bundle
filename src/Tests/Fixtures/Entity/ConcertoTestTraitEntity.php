@@ -3,18 +3,18 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity;
 
 
-use Ctrl\Bundle\ConcertoBundle\Traits\ConcertoMemberTrait;
+use Ctrl\Bundle\ConcertoBundle\Traits\SoloistAwareTrait;
 use Doctrine\Common\NotifyPropertyChanged;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class ConcertoTraitFakeEntity
+ * Class ConcertoTestTraitEntity
  * @ORM\Entity
  * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
-class ConcertoTraitFakeEntity implements NotifyPropertyChanged
+class ConcertoTestTraitEntity implements NotifyPropertyChanged
 {
-    use ConcertoMemberTrait;
+    use SoloistAwareTrait;
 
     /**
      * @var integer

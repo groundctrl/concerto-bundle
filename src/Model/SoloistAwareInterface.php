@@ -12,9 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Implement this on the non-tenant entities.
  *
  * Make sure your entities are set up with:
- * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
-interface SoloistAwareInterface extends NotifyPropertyChanged
+interface SoloistAwareInterface //extends NotifyPropertyChanged
 {
     /** @return Soloist */
     public function getSoloist();
@@ -23,5 +22,5 @@ interface SoloistAwareInterface extends NotifyPropertyChanged
     public function setSoloist(Soloist $soloist);
 
     /** @param PropertyChangedListener $listener */
-    public function addPropertyChangedListener(PropertyChangedListener $listener);
+    //public function addPropertyChangedListener(PropertyChangedListener $listener);
 }

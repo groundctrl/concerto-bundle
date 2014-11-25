@@ -6,7 +6,10 @@
         "doctrine/doctrine-bundle": "~1.2"
     },
     "require-dev": {
-        "symfony/framework-bundle": "2.5.*",
+        "symfony/framework-bundle": "~2.5",
+        "symfony/finder": "~2.5",
+        "doctrine/doctrine-fixtures-bundle": "~2.2.0",
+        "liip/functional-test-bundle": "~1.0",
         "phpunit/phpunit": "~4.0",
         "ptrofimov/xpmock": "~1.1",
         "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"

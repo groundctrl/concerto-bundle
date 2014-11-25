@@ -9,11 +9,6 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * This is the class that loads and manages your bundle configuration
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
- */
 class ConcertoExtension extends Extension
 {
     /**
@@ -21,7 +16,7 @@ class ConcertoExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
+        $configuration = new Configuration($this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -61,5 +56,13 @@ class ConcertoExtension extends Extension
         $container->setParameter('concerto.soloist_class', $config['soloist_class']);
         $container->setParameter('concerto.solo_name', $config['solo_name']);
         $container->setParameter('concerto.solo.class', $chosenSoloCfg['class']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+        return 'concerto';
     }
 }

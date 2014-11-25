@@ -1,6 +1,5 @@
 <?php
 
-use Ctrl\Bundle\ConcertoBundle\CtrlConcertoBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -13,12 +12,15 @@ class AppKernel extends Kernel
     {
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new CtrlConcertoBundle(),
+            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
+            new \Ctrl\Bundle\ConcertoBundle\CtrlConcertoBundle()
         ];
     }
 
     /**
-     * @return null
+     * {@inheritDoc}
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
@@ -26,7 +28,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getCacheDir()
     {
@@ -34,7 +36,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getLogDir()
     {

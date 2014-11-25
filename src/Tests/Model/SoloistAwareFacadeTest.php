@@ -15,18 +15,18 @@ class SoloistAwareFacadeTest extends ConcertoTestCase
     function setUp()
     {
         $this->wrapped = $this->mock(
-            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity', null);
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity', null);
 
         $em = $this->createTestConductor();
         $this->meta = $em->getClassMetadata(
-            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity');
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity');
 
         $this->sut = new SoloistAwareFacade($this->wrapped, $this->meta);
     }
 
     function getMethodParameters()
     {
-        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity');
+        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity');
 
         $methods = [];
         foreach ($class->getMethods() as $method) {
@@ -49,7 +49,7 @@ class SoloistAwareFacadeTest extends ConcertoTestCase
 
     function getPublicProperties()
     {
-        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity');
+        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity');
         $props = [];
 
         foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop)
@@ -62,7 +62,7 @@ class SoloistAwareFacadeTest extends ConcertoTestCase
 
     function getNonPublicProperties()
     {
-        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity');
+        $class = new \ReflectionClass('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity');
         $props = [];
 
         foreach ($class->getProperties(\ReflectionProperty::IS_PROTECTED | \ReflectionProperty::IS_PRIVATE) as $prop)
@@ -76,7 +76,7 @@ class SoloistAwareFacadeTest extends ConcertoTestCase
     function testGetSubjectReturnsWrappedInstance()
     {
         $this->assertInstanceOf(
-            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity',
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity',
             $this->sut->getSubject()
         );
     }

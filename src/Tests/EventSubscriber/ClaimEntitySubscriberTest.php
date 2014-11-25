@@ -11,7 +11,7 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
 
     function getMockEntity()
     {
-        return $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity')
+        return $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity')
             ->setMethods(['setSoloist', 'getSoloist'])
             ->enableProxyingToOriginalMethods()
             ->getMock();

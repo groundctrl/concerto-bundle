@@ -2,7 +2,6 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\ORM\Repository;
 
-use Ctrl\Bundle\ConcertoBundle\ORM\Conductor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Repository\DefaultRepositoryFactory;
@@ -20,26 +19,45 @@ class ConcertoEntityRepositoryFactory extends DefaultRepositoryFactory
      * and it implements SoloistAwareInterface, return a ConcertoEntityRepository.
      * Otherwise return Doctrine's default EntityRepository.
      *
-     * @param \Doctrine\ORM\EntityManagerInterface $c          The Entity Manager.
-     * @param string                               $entityName The class name of the entity.
+     * @param EntityManagerInterface $c          The Entity Manager.
+     * @param string                 $entityName The class name of the entity.
      *
+     * @throws \UnexpectedValueException
      * @return \Doctrine\Common\Persistence\ObjectRepository The requested Repository.
      */
     protected function createRepository( EntityManagerInterface $c, $entityName )
     {
-        $concertoRCN = is_a( $c, 'Ctrl\Bundle\ConcertoBundle\ORM\Conductor' ) ?
-            $c->getConcertoRepositoryClassName()
-            : null;
-
         $metaData = $c->getClassMetadata($entityName);
         $customRCN = $metaData->customRepositoryClassName;
 
-        if( $customRCN !== null ) {
-            //we've been told what repo to use
-            $repository = new $customRCN( $c, $metaData );
-        } elseif( $concertoRCN ) {
+        $entityIsSoloistAware = $metaData->getReflectionClass()
+            ->implementsInterface('Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface')
+        ;
+
+        $customRepoIsConcertoRepo = is_null($customRCN)
+            ? null
+            : (new \ReflectionClass($customRCN))
+                ->isSubclassOf('Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository')
+        ;
+
+        if ( isset($customRCN) ) {
+            if ( ! ( $entityIsSoloistAware xor $customRepoIsConcertoRepo ) ) { // ! (A xor B) = "both or neither"
+                //We've been told what repo to use, and errythang's cool
+                $repository = new $customRCN( $c, $metaData );
+
+            } else {                                                             // TRUE FALSE || FALSE TRUE
+                //We've been told what repo to use, but there's a problem
+                throw new \UnexpectedValueException("The repository requested for "
+                    . ($entityIsSoloistAware ? "SoloistAware entity " : "") . $entityName
+                    . " could not be made because " . $customRCN
+                    . ($customRepoIsConcertoRepo ? " is a " : " is not a ")
+                    . "ConcertoEntityRepository."
+                );
+            }
+        } elseif ($entityIsSoloistAware) {
             //we can infer what repo to use
-            $repository = new $concertoRCN( $c, $metaData );
+            $repository = new ConcertoEntityRepository( $c, $metaData );
+
         } else {
             //what?
             $repository = new EntityRepository( $c, $metaData );

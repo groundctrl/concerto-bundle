@@ -4,7 +4,7 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\ORM\Repository;
 
 use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepositoryFactory;
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
-use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoRegularFakeEntity;
+use Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity;
 
 class ConcertoEntityRepositoryFactoryTest extends ConcertoTestCase
 {
