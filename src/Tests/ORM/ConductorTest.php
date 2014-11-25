@@ -60,7 +60,7 @@ class ConductorTest extends ConcertoTestCase
      * @param string $ECN the Entity Class Name
      * @param string $RCN the Repository Class Name
      *
-     * @dataProvider threeTypesOfEntityProvider
+     * @dataProvider fourTypesOfEntityProvider
      */
     function testItsGetRepositoryMethodReturnsTheCorrectRepository($ECN, $RCN)
     {

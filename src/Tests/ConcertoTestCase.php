@@ -20,24 +20,30 @@ class ConcertoTestCase extends \PHPUnit_Framework_TestCase
         return ConcertoTestHelper::createTestConductor();
     }
 
-    function threeTypesOfEntityProvider()
+    function fourTypesOfEntityProvider()
     {
         //ECN: EntityClassName
         //RCN: RepositoryClassName
 
-        $concertoECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity';
-        $concertoRCN = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
+        $awareECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity';
+        $awareRCN = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
 
-        $customECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestCustomAwareEntity';
-        $customRCN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestCustomAwareEntityRepository';
+        $customAwareECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestCustomAwareEntity';
+        $customAwareRCN =
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestCustomAwareEntityRepository';
 
-        $regularECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity';
-        $regularRCN = 'Doctrine\ORM\EntityRepository';
+        $customUnawareECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestCustomUnawareEntity';
+        $customUnawareRCN =
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestCustomUnawareEntityRepository';
+
+        $unawareECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity';
+        $unawareRCN = 'Doctrine\ORM\EntityRepository';
 
         return [
-            [ $concertoECN, $concertoRCN ],
-            [ $customECN,   $customRCN   ],
-            [ $regularECN,  $regularRCN  ]
+            [         $awareECN,         $awareRCN ],
+            [   $customAwareECN,   $customAwareRCN ],
+            [ $customUnawareECN, $customUnawareRCN ],
+            [       $unawareECN,       $unawareRCN ]
         ];
     }
 }

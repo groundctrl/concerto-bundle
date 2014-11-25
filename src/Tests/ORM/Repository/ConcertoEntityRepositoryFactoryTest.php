@@ -20,7 +20,7 @@ class ConcertoEntityRepositoryFactoryTest extends ConcertoTestCase
      * @param string $ECN the Entity Class Name
      * @param string $RCN the Repository Class Name
      *
-     * @dataProvider threeTypesOfEntityProvider
+     * @dataProvider fourTypesOfEntityProvider
      */
     function testItCreatesTheCorrectRepoFromGivenEntityName($ECN, $RCN)
     {
