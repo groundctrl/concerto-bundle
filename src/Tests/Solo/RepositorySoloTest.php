@@ -25,7 +25,7 @@ class RepositorySoloTest extends ConcertoTestCase
         $this->soloistStub = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist', null);
 
         $this->repositoryMock = $this->mock(
-            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository')
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestCustomAwareEntityRepository')
         ;
 
         $this->requestMock = $this->mock('Symfony\Component\HttpFoundation\Request', null);

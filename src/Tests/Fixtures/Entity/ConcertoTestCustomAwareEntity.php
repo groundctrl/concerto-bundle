@@ -8,9 +8,9 @@ use Doctrine\Common\PropertyChangedListener;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository")
+ * @ORM\Entity(repositoryClass="Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestCustomAwareEntityRepository")
  */
-class ConcertoCustomFakeEntity extends ConcertoTestUnawareEntity implements SoloistAwareInterface
+class ConcertoTestCustomAwareEntity extends ConcertoTestUnawareEntity implements SoloistAwareInterface
 {
 
     protected $soloist;
