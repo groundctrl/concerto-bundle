@@ -3,7 +3,6 @@
 namespace Ctrl\Bundle\ConcertoBundle\Traits;
 
 use Doctrine\Common\PropertyChangedListener;
-
 /**
  * Class SoloistAwareTrait
  *

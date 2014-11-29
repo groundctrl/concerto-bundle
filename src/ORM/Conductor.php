@@ -3,6 +3,8 @@
 namespace Ctrl\Bundle\ConcertoBundle\ORM;
 
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareFacade;
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepositoryFactory;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
@@ -143,7 +145,7 @@ class Conductor extends EntityManager
     {
         $unwrapper = function($x)
                      {
-                         if(is_a($x, 'Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareFacade')) {
+                         if($x instanceof SoloistAwareFacade) {
                              return $x->getSubject();
                          }
                          return $x;

@@ -2,8 +2,11 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\EventSubscriber;
 
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareFacade;
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 
 /**
  * Class ClaimEntitySubscriber
@@ -21,17 +24,17 @@ class ClaimEntitySubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array('onFlush');
+        return [ Events::preFlush ];
     }
 
     /**
      * What to do when it's time to persist data.
      *
-     * @param OnFlushEventArgs $args Arriving here from Symfony's EventDispatcher
+     * @param PreFlushEventArgs $args Arriving here from Symfony's EventDispatcher
      *
      * @throws \UnexpectedValueException if no Soloist available.
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function preFlush(PreFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
 
@@ -43,18 +46,22 @@ class ClaimEntitySubscriber implements EventSubscriber
 
             foreach($uow->getScheduledEntityInsertions() as $entity)
             {
-                $entity->setSoloist($soloist);
+                if( $entity instanceof SoloistAwareInterface || $entity instanceof SoloistAwareFacade ) {
+                    $entity->setSoloist($soloist);
+                }
             }
             foreach($uow->getScheduledEntityUpdates() as $entity)
             {
-                $entity->setSoloist($soloist);
+                if( $entity instanceof SoloistAwareInterface || $entity instanceof SoloistAwareFacade ) {
+                    $entity->setSoloist($soloist);
+                }
             }
 
             #foreach($uow->getScheduledEntityDeletions() as $entity)  No need to set soloist since we're deleting
 
         } else {
 
-            throw new \UnexpectedValueException("OnFlush: Soloist should be set by now.");
+            throw new \UnexpectedValueException("PreFlush: Soloist should be set by now.");
         }
     }
 } 

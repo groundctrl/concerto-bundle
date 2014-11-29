@@ -31,7 +31,7 @@ class SoloistAwareFacadeTest extends ConcertoTestCase
         $methods = [];
         foreach ($class->getMethods() as $method) {
 
-            if(array_search($method->getName(), ['__construct', 'getSubject', '_onPropertyChanged']) === false) {
+            if(array_search($method->getName(), ['__construct', 'getSubject', '_onPropertyChanged', 'addPropertyChangedListener']) === false) {
 
                 if ($method->getNumberOfRequiredParameters() === 0) {
                     $methods[] = array($method->getName(), array());

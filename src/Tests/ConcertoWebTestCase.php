@@ -2,7 +2,11 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests;
 
+use Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ConcertoWebTestCase extends WebTestCase
 {
@@ -28,6 +32,7 @@ class ConcertoWebTestCase extends WebTestCase
             ->getManager()
         ;
 
+        $this->em->getEventManager()->addEventSubscriber(new ClaimEntitySubscriber());
         /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
         $this->dispatcher = static::$kernel->getContainer()
             ->get('event_dispatcher');
@@ -35,12 +40,19 @@ class ConcertoWebTestCase extends WebTestCase
 
     }
 
+    function getGRE()
+    {
+        $request = Request::create('http://alice.com');
+        $GRE = new GetResponseEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        return $GRE;
+    }
+
     public function someDomains()
     {
-        // LISTOF [ID, DOMAIN_NAME] COMING FROM LOADHOSTNAMEDATA
+        // LISTOF [ID, DOMAIN_NAME] COMING FROM LoadSoloistUnawareEntityData
         return [ [ 1, 'alice.com' ],
-                 [ 2, 'bob.com'   ],
-                 [ 3, 'carl.com'  ] ];
+                 [ 2,   'bob.com' ],
+                 [ 3,  'carl.com' ] ];
     }
 
     /**

@@ -3,16 +3,10 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\ORM\Filter;
 
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoWebTestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class SoloistFilterFunctionalTest extends ConcertoWebTestCase
 {
-
-    private $awareCount;
-
     function setUp()
     {
         parent::setUp();
@@ -22,12 +16,6 @@ class SoloistFilterFunctionalTest extends ConcertoWebTestCase
         if( array_search($solo, ['hostnamesolo', 'repositorysolo']) === false ) {
             $this->markTestSkipped('This test is made to work with the default solos, hostname and repository.');
         }
-    }
-    function getGRE()
-    {
-        $request = Request::create('http://alice.com');
-        $GRE = new GetResponseEvent(static::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
-        return $GRE;
     }
 
     function testFilterDoesNotAddCriteriaToQueryIfEntityNotSoloistAware()

@@ -13,14 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * Make sure your entities are set up with:
  */
-interface SoloistAwareInterface //extends NotifyPropertyChanged
+interface SoloistAwareInterface extends NotifyPropertyChanged
 {
     /** @return Soloist */
     public function getSoloist();
 
     /** @param Soloist $soloist */
     public function setSoloist(Soloist $soloist);
-
-    /** @param PropertyChangedListener $listener */
-    //public function addPropertyChangedListener(PropertyChangedListener $listener);
 }

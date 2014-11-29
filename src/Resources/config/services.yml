@@ -25,7 +25,7 @@ services:
     concerto.subscriber.claim_entity:
         class: Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber
         tags:
-            - { name: doctrine.event_subscriber}
+            - { name: doctrine.event_subscriber }
 
     concerto.soloist_repository:
         class: Doctrine\ORM\EntityRepository

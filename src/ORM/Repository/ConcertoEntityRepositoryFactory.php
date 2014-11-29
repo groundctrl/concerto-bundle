@@ -15,8 +15,9 @@ class ConcertoEntityRepositoryFactory extends DefaultRepositoryFactory
 {
     /**
      * Create a new repository instance for an entity class.
-     * If the entity's metadata lists a custom repository, return that. If not,
-     * and it implements SoloistAwareInterface, return a ConcertoEntityRepository.
+     *
+     * If the entity's metadata lists a custom repository, return that after checking compatibility.
+     * If not, and it implements SoloistAwareInterface, return a ConcertoEntityRepository.
      * Otherwise return Doctrine's default EntityRepository.
      *
      * @param EntityManagerInterface $c          The Entity Manager.
@@ -34,8 +35,8 @@ class ConcertoEntityRepositoryFactory extends DefaultRepositoryFactory
             ->implementsInterface('Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface')
         ;
 
-        $customRepoIsConcertoRepo = is_null($customRCN)
-            ? null
+        $customRepoIsConcertoRepo = is_null($customRCN) ?
+              null
             : (new \ReflectionClass($customRCN))
                 ->isSubclassOf('Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository')
         ;
