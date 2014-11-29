@@ -1,5 +1,5 @@
 {
-    "name": "groundctrl/concerto-bundle",
+    "name": "ctrl/concerto-bundle",
     "description": "Multi Tenancy for Symfony + Doctrine",
     "require": {
         "doctrine/orm": "~2.4",
