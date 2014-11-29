@@ -3,10 +3,10 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository;
 
-use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-class ConcertoTestSoloistLinkingEntityRepository extends ConcertoEntityRepository
+class ConcertoTestSoloistLinkingEntityRepository extends EntityRepository
 {
     public function findClientByDomain($request)
     {

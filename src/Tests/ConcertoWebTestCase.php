@@ -2,7 +2,7 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Tests;
 
-use Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber;
+use Ctrl\Bundle\ConcertoBundle\EventListener\ClaimEntitySubscriber;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -31,7 +31,7 @@ class ConcertoWebTestCase extends WebTestCase
             ->get('doctrine')
             ->getManager()
         ;
-
+        //@TODO: still need to figure out if this is added normally
         $this->em->getEventManager()->addEventSubscriber(new ClaimEntitySubscriber());
         /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
         $this->dispatcher = static::$kernel->getContainer()

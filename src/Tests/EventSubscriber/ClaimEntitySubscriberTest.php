@@ -3,7 +3,7 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\EventSubscriber;
 
 
-use Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber;
+use Ctrl\Bundle\ConcertoBundle\EventListener\ClaimEntitySubscriber;
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
 
 class ClaimEntitySubscriberTest extends ConcertoTestCase
@@ -55,14 +55,14 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
         $em->expects($this->once())->method('getSoloist')->willReturn($soloistMock);
         $em->expects($this->once())->method('getUnitOfWork')->willReturn($uow);
 
-        $OFEA = $this->getMockBuilder('Doctrine\ORM\Event\PreFlushEventArgs')
+        $PFEA = $this->getMockBuilder('Doctrine\ORM\Event\PreFlushEventArgs')
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager'])
             ->getMock();
-        $OFEA->expects($this->once())->method('getEntityManager')->willReturn($em);
+        $PFEA->expects($this->once())->method('getEntityManager')->willReturn($em);
 
         $sut = new ClaimEntitySubscriber($this->mock('Symfony\Component\DependencyInjection\ContainerInterface', null));
-        $sut->PreFlush($OFEA);
+        $sut->PreFlush($PFEA);
 
         foreach($entities as $k => $v)
         {
@@ -93,10 +93,10 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
             ->getUnitOfWork(null)
             ->new();
 
-        $OFEA = $this->mock('Doctrine\ORM\Event\PreFlushEventArgs')
+        $PFEA = $this->mock('Doctrine\ORM\Event\PreFlushEventArgs')
             ->getEntityManager($em)->new();
 
-        $sut = new ClaimEntitySubscriber($this->mock('Symfony\Component\DependencyInjection\ContainerInterface', null));
-        $sut->PreFlush($OFEA);
+        $sut = new ClaimEntitySubscriber();
+        $sut->PreFlush($PFEA);
     }
 }

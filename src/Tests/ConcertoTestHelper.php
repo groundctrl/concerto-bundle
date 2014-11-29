@@ -44,7 +44,7 @@ class ConcertoTestHelper
         $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
         $config->setQueryCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
         $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
-        $config->setRepositoryFactory(new ConcertoEntityRepositoryFactory());
+        //$config->setRepositoryFactory(new ConcertoEntityRepositoryFactory());
         $config->addFilter('soloist', 'Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter');
         $params = [
             'driver' => 'pdo_mysql',

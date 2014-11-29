@@ -13,7 +13,7 @@ services:
             - @concerto.solo
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onEarlyKernelRequest, priority: 1  }
-#@TODO: change ConductSoloistListener and similarly named things to be something like... addSoloistListener or conductSoloistListener.
+
     concerto.listener.conduct_soloist:
         class: Ctrl\Bundle\ConcertoBundle\EventListener\ConductSoloistListener
         arguments:
@@ -23,7 +23,7 @@ services:
             - { name: kernel.event_listener, event: soloist.found, method: onSoloistFound }
 
     concerto.subscriber.claim_entity:
-        class: Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber
+        class: Ctrl\Bundle\ConcertoBundle\EventListener\ClaimEntitySubscriber
         tags:
             - { name: doctrine.event_subscriber }
 

@@ -27,7 +27,7 @@ class HostnameSoloTest extends ConcertoTestCase
         #$this->markTestSkipped("puzzle pieces");
         $this->soloistStub = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist', null);
 
-        $this->repoMock    = $this->mock('Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository');
+        $this->repoMock    = $this->mock('Doctrine\ORM\EntityRepository');
 
 
         $this->requestMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')

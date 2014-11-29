@@ -5,7 +5,6 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity;
 
 use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
-use Ctrl\Bundle\ConcertoBundle\Traits\SoloistAwareTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ConcertoTestAwareEntity implements SoloistAwareInterface
 {
-    use SoloistAwareTrait;
 
     /**
      * @var integer
