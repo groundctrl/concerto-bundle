@@ -41,18 +41,14 @@ class ConcertoExtension extends Extension
 
         if($id != null) {
 
-            if($container->hasDefinition($id)) {
-
-                $solo = $container->getDefinition($id);
-
-            } else throw new \InvalidArgumentException('Could not find service ' . $id);
+            $container->setAlias('concerto.solo', $id.'');
 
         } else {
 
           $solo = new Definition($chosenSoloCfg['class'], $chosenSoloCfg['arguments']);
+          $container->setDefinition('concerto.solo', $solo);
         }
 
-        $container->setDefinition('concerto.solo', $solo);
         $container->setParameter('concerto.soloist_class', $config['soloist_class']);
         $container->setParameter('concerto.solo_name', $config['solo_name']);
         $container->setParameter('concerto.solo.class', $chosenSoloCfg['class']);
