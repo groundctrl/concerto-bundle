@@ -7,10 +7,12 @@ services:
 
     concerto.listener.find_soloist:
         class: Ctrl\Bundle\ConcertoBundle\EventListener\FindSoloistListener
+        scope: request
         arguments:
             - @service_container
             - @event_dispatcher
-            - @concerto.solo
+        calls:
+            - [ setSolo, [ '@?concerto.solo=' ] ]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onEarlyKernelRequest, priority: 1  }
 
