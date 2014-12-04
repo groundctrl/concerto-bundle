@@ -7,7 +7,6 @@ services:
 
     concerto.listener.find_soloist:
         class: Ctrl\Bundle\ConcertoBundle\EventListener\FindSoloistListener
-        scope: request
         arguments:
             - @service_container
             - @event_dispatcher
