@@ -15,9 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 interface SoloistAwareInterface
 {
-    /** @return Soloist */
-    public function getSoloist();
-
     /** @param Soloist $soloist */
     public function setSoloist(Soloist $soloist);
 }
