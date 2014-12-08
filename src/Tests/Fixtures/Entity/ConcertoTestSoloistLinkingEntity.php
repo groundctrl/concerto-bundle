@@ -4,7 +4,6 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity;
 
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
 use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
-use Doctrine\Common\PropertyChangedListener;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -79,11 +78,5 @@ class ConcertoTestSoloistLinkingEntity implements SoloistAwareInterface
     public function getSoloist()
     {
         return $this->soloist;
-    }
-
-    /** @param PropertyChangedListener $listener */
-    public function addPropertyChangedListener(PropertyChangedListener $listener)
-    {
-
     }
 }

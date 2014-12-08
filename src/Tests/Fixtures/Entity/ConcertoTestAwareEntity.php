@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="concerto_aware")
- * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
 class ConcertoTestAwareEntity implements SoloistAwareInterface
 {
