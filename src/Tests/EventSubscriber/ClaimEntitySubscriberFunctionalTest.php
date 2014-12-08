@@ -12,37 +12,49 @@ class ClaimEntitySubscriberFunctionalTest extends ConcertoWebTestCase
     function testItCallsSetSoloistOnSoloistAwareEntitiesPreFlush()
     {
         $this->loadFixtures([   'Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadSoloistAwareEntityData' ]);
-        $GRE = $this->getGRE();
+        $GRE = $this->getGRE();  //simulate a request
 
-        $this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE);
+        $this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE); //dispatch it. $this->em now has a soloist set on it.
 
-        $newEntity = new ConcertoTestAwareEntity();
-        $newEntity->setName('Dave');
+        //make a new SoloistAware entity
+        $insertDave = new ConcertoTestAwareEntity();
+        $insertDave->setName('Dave');
 
-        $this->em->persist($newEntity);
+        //persist it without setting the soloist
+        $this->em->persist($insertDave);
         $this->em->flush();
 
+        //assert setSoloist was called preFlush on the entity we made
         $this->assertSame($this->em->getSoloist()->getId(),
-            $newEntity->getSoloist()->getId());
+            $insertDave->getSoloist()->getId());
+
+        //also assert that same entity has a soloist if you get it back from the DB
+        $findDave = $this->em->getRepository('CtrlConcertoBundle:ConcertoTestAwareEntity')->findOneByName('Dave');
+        $this->assertSame($this->em->getSoloist()->getId(),
+            $findDave->getSoloist()->getId());
     }
 
     function testItDoesNotAlterSoloistUnawareEntities()
     {
         $this->loadFixtures([   'Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadSoloistAwareEntityData' ]);
-        $GRE = $this->getGRE();
+        $GRE = $this->getGRE();  //simulate a request
 
-        $this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE);
+        $this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE); //dispatch it. $this->em now has a soloist set on it.
 
-        $prePreFlushEntity = new ConcertoTestUnawareEntity();
-        $prePreFlushEntity->setName('Ethel');
+        //make a new entity which is not SoloistAware
+        $insertEthel = new ConcertoTestUnawareEntity();
+        $insertEthel->setName('Ethel');
 
-        $this->em->persist($prePreFlushEntity);
+        //persist it
+        $this->em->persist($insertEthel);
         $this->em->flush();
 
-        $postPreFlushEntity = $this->em->getRepository('CtrlConcertoBundle:ConcertoTestUnawareEntity')
+        //get it back from the DB
+        $findEthel = $this->em->getRepository('CtrlConcertoBundle:ConcertoTestUnawareEntity')
             ->findOneByName('Ethel');
 
-        $this->assertSame($prePreFlushEntity,
-                         $postPreFlushEntity);
+        //assert that it's the same as the original, no changes made
+        $this->assertSame($insertEthel,
+                         $findEthel);
     }
 }
