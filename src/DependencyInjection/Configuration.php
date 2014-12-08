@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('soloist_class')->end()
                 ->scalarNode('solo_name')
-                    ->beforeNormalization()
+                    ->validate()
                         ->always()
                         ->then(function($v) {
                             $this->chosenSoloName = $v;
@@ -63,11 +63,11 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('solos')
                     ->isRequired()
                     ->prototype('array')
-                        ->beforeNormalization()
+                        ->validate()
                             ->ifTrue(function($v) { return is_string($v) && substr($v, 0, 1) == "@"; } )
                             ->then(  function($v) { return [ 'service' => $v ]; } )
                         ->end()
-                        ->beforeNormalization()
+                        ->validate()
                             ->always() //everything should be an array now
                             ->then(function($v) use($useIfThere_setNullOtherwise) {
                                 $useIfThere_setNullOtherwise($v, 'class');
@@ -76,7 +76,7 @@ class Configuration implements ConfigurationInterface
                                 return $v;
                             })
                         ->end()
-                        ->beforeNormalization()
+                        ->validate()
                             ->ifTrue(function($v) { return $v['class'] === null && $v['service'] === null; })
                             ->then(  function($v) {
                                 list($maybePredefinedSolo, $maybePredefinedArgs)
@@ -87,7 +87,7 @@ class Configuration implements ConfigurationInterface
                                          'service'   => $v['service'] ];
                             })
                         ->end()
-                        ->beforeNormalization()
+                        ->validate()
                             ->ifTrue(function($v) { //same ifTrue but now we've checked against /Solo folder
                                 return $v['class'] !== null && $v['service'] !== null;
                             })
