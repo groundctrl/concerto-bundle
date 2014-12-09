@@ -2,26 +2,15 @@
 
 namespace Ctrl\Bundle\ConcertoBundle\Model;
 
-use Doctrine\Common\NotifyPropertyChanged;
-use Doctrine\Common\PropertyChangedListener;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Interface ConcertoMemberInterface
+ * Interface SoloistAwareInterface
  *
- * Implement this on the non-tenant entities.
- *
- * Make sure your entities are set up with:
- * @ORM\ChangeTrackingPolicy("NOTIFY")
+ * To be implemented by entities which have a direct association with the Soloist.
  */
-interface SoloistAwareInterface extends NotifyPropertyChanged
+interface SoloistAwareInterface
 {
-    /** @return Soloist */
-    public function getSoloist();
-
     /** @param Soloist $soloist */
     public function setSoloist(Soloist $soloist);
-
-    /** @param PropertyChangedListener $listener */
-    public function addPropertyChangedListener(PropertyChangedListener $listener);
 }

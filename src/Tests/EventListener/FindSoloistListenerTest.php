@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Prophecy\Argument;
+use Symfony\Component\HttpFoundation\Request;
 
 class FindSoloistListenerTest extends ConcertoTestCase
 {
@@ -40,9 +41,12 @@ class FindSoloistListenerTest extends ConcertoTestCase
 
         $this->soloistMock = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist')->getId(13)->new();
 
-        $this->requestStub = $this->mock('Symfony\Component\HttpFoundation\Request', null);
+        #$this->requestStub = $this->mock('Symfony\Component\HttpFoundation\Request', null);
+        $this->requestStub = new Request();
 
-        $this->rspEvtMock = $this->mock('Symfony\Component\HttpKernel\Event\GetResponseEvent');
+        $this->rspEvtMock = $this->mock('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+            ->getRequest($this->requestStub)
+        ;
 
     }
 
@@ -80,7 +84,8 @@ class FindSoloistListenerTest extends ConcertoTestCase
             ->new()
         ;
 
-        $sut = new FindSoloistListener($container, $dispatcher, $solo);
+        $sut = new FindSoloistListener($container, $dispatcher);
+        $sut->setSolo($solo);
         $sut->onEarlyKernelRequest($rspEvtMock);
 
         $this->assertSame($sut->getSoloist(), $this->soloistMock);
@@ -113,7 +118,8 @@ class FindSoloistListenerTest extends ConcertoTestCase
             ->new()
         ;
 
-        $sut = new FindSoloistListener($container, $dispatcher, $solo);
+        $sut = new FindSoloistListener($container, $dispatcher);
+        $sut->setSolo($solo);
         $sut->onEarlyKernelRequest($rspEvtMock);
 
         $this->assertSame($sut->getSoloist(), $this->soloistMock);
@@ -146,7 +152,8 @@ class FindSoloistListenerTest extends ConcertoTestCase
             ->new()
         ;
 
-        $sut = new FindSoloistListener($container, $dispatcher, $solo);
+        $sut = new FindSoloistListener($container, $dispatcher);
+        $sut->setSolo($solo);
         $sut->onEarlyKernelRequest($rspEvtMock);
 
         $this->assertSame($sut->getSoloist(), null);
@@ -168,7 +175,7 @@ class FindSoloistListenerTest extends ConcertoTestCase
 
         $sut = $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\EventListener\FindSoloistListener')
             ->setMethods(['onEarlyKernelRequest', 'getSoloist', 'setSoloist'])
-            ->setConstructorArgs([$container, $dispatcher, $solo])
+            ->setConstructorArgs([$container, $dispatcher])
             ->getMock();
 
         $sut->expects($this->once())

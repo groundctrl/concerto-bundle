@@ -3,7 +3,7 @@
 namespace Ctrl\Bundle\ConcertoBundle\Tests\EventSubscriber;
 
 
-use Ctrl\Bundle\ConcertoBundle\EventSubscriber\ClaimEntitySubscriber;
+use Ctrl\Bundle\ConcertoBundle\EventListener\ClaimEntitySubscriber;
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
 
 class ClaimEntitySubscriberTest extends ConcertoTestCase
@@ -11,13 +11,13 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
 
     function getMockEntity()
     {
-        return $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity')
+        return $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestAwareEntity')
             ->setMethods(['setSoloist', 'getSoloist'])
             ->enableProxyingToOriginalMethods()
             ->getMock();
     }
 
-    function testItsOnFlushMethodWorks()
+    function testItsPreFlushMethodWorks()
     {
         $soloistMock = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist')
             ->getId(1)
@@ -55,14 +55,14 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
         $em->expects($this->once())->method('getSoloist')->willReturn($soloistMock);
         $em->expects($this->once())->method('getUnitOfWork')->willReturn($uow);
 
-        $OFEA = $this->getMockBuilder('Doctrine\ORM\Event\OnFlushEventArgs')
+        $PFEA = $this->getMockBuilder('Doctrine\ORM\Event\PreFlushEventArgs')
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager'])
             ->getMock();
-        $OFEA->expects($this->once())->method('getEntityManager')->willReturn($em);
+        $PFEA->expects($this->once())->method('getEntityManager')->willReturn($em);
 
         $sut = new ClaimEntitySubscriber($this->mock('Symfony\Component\DependencyInjection\ContainerInterface', null));
-        $sut->onFlush($OFEA);
+        $sut->PreFlush($PFEA);
 
         foreach($entities as $k => $v)
         {
@@ -84,19 +84,19 @@ class ClaimEntitySubscriberTest extends ConcertoTestCase
 
     /**
      * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage OnFlush: Soloist should be set by now.
+     * @expectedExceptionMessage PreFlush: Soloist should be set by now.
      */
-    function testOnFlushErrorsWithNoSoloist()
+    function testPreFlushErrorsWithNoSoloist()
     {
         $em = $this->mock('Ctrl\Bundle\ConcertoBundle\ORM\Conductor')
             ->getSoloist(null)
             ->getUnitOfWork(null)
             ->new();
 
-        $OFEA = $this->mock('Doctrine\ORM\Event\OnFlushEventArgs')
+        $PFEA = $this->mock('Doctrine\ORM\Event\PreFlushEventArgs')
             ->getEntityManager($em)->new();
 
-        $sut = new ClaimEntitySubscriber($this->mock('Symfony\Component\DependencyInjection\ContainerInterface', null));
-        $sut->onFlush($OFEA);
+        $sut = new ClaimEntitySubscriber();
+        $sut->PreFlush($PFEA);
     }
 }

@@ -24,19 +24,19 @@ class HostnameSoloTest extends ConcertoTestCase
 
     function setUp()
     {
+        #$this->markTestSkipped("puzzle pieces");
         $this->soloistStub = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist', null);
 
-        $this->repoMock    = $this->mock('Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository');
-        $this->serverMock  = $this->mock('Symfony\Component\HttpFoundation\ServerBag')
-            ->get(['SERVER_NAME'], 'www.mysite.com', $this->once())
-            ->new()
+        $this->repoMock    = $this->mock('Doctrine\ORM\EntityRepository');
+
+
+        $this->requestMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+            ->setMethods(['getHost'])
+            ->disableOriginalConstructor()
+            ->getMock()
         ;
 
-        $this->requestMock = $this->mock('Symfony\Component\HttpFoundation\Request',
-            [
-                'server' => $this->serverMock
-            ])
-        ;
+        $this->requestMock->expects($this->once())->method('getHost')->willReturn('www.mysite.com');
     }
 
     function testItCanGetTheSoloist()
@@ -50,11 +50,7 @@ class HostnameSoloTest extends ConcertoTestCase
         $this->assertSame($this->soloistStub, $sut->getSoloist($this->requestMock));
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Could not find a soloist using solo:
-     */
-    function testGetSoloistErrorsOnFailedFind()
+    function testGetSoloistReturnsNullOnFailedFind()
     {
         $this->repoMock = $this->repoMock
             ->findOneBy([ [$this->field => $this->hostName] ], null, $this->once())
@@ -62,7 +58,7 @@ class HostnameSoloTest extends ConcertoTestCase
         ;
 
         $sut = new HostnameSolo($this->repoMock, $this->field);
-        $sut->getSoloist($this->requestMock);
+        $this->assertNull($sut->getSoloist($this->requestMock));
     }
 
     /**
@@ -71,7 +67,7 @@ class HostnameSoloTest extends ConcertoTestCase
      */
     function testGetSoloistErrorsOnBadFind()
     {
-        $nonSoloist = $this->mock('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoRegularFakeEntity', null);
+        $nonSoloist = $this->mock('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity', null);
 
         $this->repoMock = $this->repoMock
             ->findOneBy([ [$this->field => $this->hostName] ], $nonSoloist, $this->once())

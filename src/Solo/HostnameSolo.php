@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
  * Class HostnameSolo
  *
  * Strategy for determining Soloist from
- * the SERVER_NAME of your request.
+ * the SERVER_NAME of your request. You provide the name of the field
+ * the hostname is stored on in the Soloist class. This extracts the
+ * hostname ($request->getHost()) and searches the repo on that.
  */
 class HostnameSolo implements SoloInterface
 {
@@ -44,7 +46,7 @@ class HostnameSolo implements SoloInterface
      */
     public function getSoloist(Request $request)
     {
-        $hostName = $request->server->get('SERVER_NAME');
+        $hostName = $request->getHost();
         $ret = $this->repository->findOneBy( [ $this->soloistField => $hostName ] );
         if($ret !== null && is_a( $ret, 'Ctrl\Bundle\ConcertoBundle\Model\Soloist' ) ) {
             return $ret;
@@ -55,8 +57,6 @@ class HostnameSolo implements SoloInterface
             throw new \UnexpectedValueException("The entity found does not extend Soloist: " . get_class($ret));
         }
 
-        throw new \BadMethodCallException("Could not find a soloist using solo: " . get_class()
-            . ". Tried to find hostname \"" . $hostName . "\" using " . get_class($this->repository)
-            . "::findOneBy( [ " . $this->soloistField . " => " . $hostName . " ] ).");
+        return null;
     }
-} 
+}

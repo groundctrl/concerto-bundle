@@ -25,18 +25,10 @@ class RepositorySoloTest extends ConcertoTestCase
         $this->soloistStub = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist', null);
 
         $this->repositoryMock = $this->mock(
-            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository')
+            'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoTestSoloistLinkingEntityRepository')
         ;
 
-        $this->serverMock = $this->mock('Symfony\Component\HttpFoundation\ServerBag')
-            ->get(['SERVER_NAME'], 'www.mysite.com', $this->once())
-            ->new()
-        ;
-        $this->requestMock = $this->mock('Symfony\Component\HttpFoundation\Request',
-            [
-                'server' => $this->serverMock
-            ])
-        ;
+        $this->requestMock = $this->mock('Symfony\Component\HttpFoundation\Request', null);
     }
 
     function testItCanGetTheSoloist()
@@ -44,7 +36,7 @@ class RepositorySoloTest extends ConcertoTestCase
         $rMethod = 'repoSoloMethod';
 
         $this->repositoryMock = $this->repositoryMock
-            ->repoSoloMethod(['www.mysite.com'], $this->soloistStub)
+            ->repoSoloMethod([$this->requestMock], $this->soloistStub)
             ->new()
         ;
 
@@ -53,21 +45,17 @@ class RepositorySoloTest extends ConcertoTestCase
         $this->assertSame($this->soloistStub, $sut->getSoloist($this->requestMock));
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Could not find a soloist using solo:
-     */
-    function testGetSoloistErrorsOnFailedFind()
+    function testGetSoloistReturnsNullOnFailedFind()
     {
         $rMethod = 'repoSoloMethod';
 
         $this->repositoryMock = $this->repositoryMock
-            ->repoSoloMethod(['www.mysite.com'], null)
+            ->repoSoloMethod([$this->requestMock], null)
             ->new()
         ;
 
         $sut = new RepositorySolo($this->repositoryMock, $rMethod);
-        $sut->getSoloist($this->requestMock);
+        $this->assertNull($sut->getSoloist($this->requestMock));
     }
 
     /**
@@ -78,10 +66,10 @@ class RepositorySoloTest extends ConcertoTestCase
     {
         $rMethod = 'repoSoloMethod';
 
-        $nonSoloist = $this->mock('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoRegularFakeEntity', null);
+        $nonSoloist = $this->mock('Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestUnawareEntity', null);
 
         $this->repositoryMock = $this->repositoryMock
-            ->repoSoloMethod(['www.mysite.com'], $nonSoloist)
+            ->repoSoloMethod([$this->requestMock], $nonSoloist)
             ->new()
         ;
 

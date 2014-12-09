@@ -3,7 +3,7 @@
 namespace Ctrl\Bundle\ConcertoBundle\ORM;
 
 use Ctrl\Bundle\ConcertoBundle\Model\Soloist;
-use Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepositoryFactory;
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
@@ -14,24 +14,12 @@ use Doctrine\ORM\ORMException;
 /**
  * Class Conductor
  *
- * Concerto's EntityManager. When a persistence-related
- * method is called, the Conductor simply removes the
- * SoloistAwareFacade around the Entity and calls the
- * same method through parent::methodName().
- *
- * So Conductor::$method( $facade = $arg1, $arg2, ... ) returns
- * EntityManager::$method( $facade->getSubject(), $arg2, ... )
+ * An Entity Manager with a soloist property and filter.
  */
-class Conductor extends EntityManager
+class Conductor extends EntityManager implements SoloistAwareInterface
 {
     /** @var Soloist */
     protected $soloist;
-
-    /** @var string */
-    protected $soloistClassName;
-
-    /** @var string */
-    protected $concertoRepositoryClassName = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
 
     /**
      * Factory method to create Conductor instances.
@@ -64,7 +52,7 @@ class Conductor extends EntityManager
             throw new \InvalidArgumentException("Invalid argument: " . $conn);
         }
 
-        $config->setRepositoryFactory(new ConcertoEntityRepositoryFactory());
+        $config->addFilter('soloist', 'Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter');
 
         return new self($conn, $config, $eventManager == null ? new EventManager() : $eventManager);
     }
@@ -80,22 +68,11 @@ class Conductor extends EntityManager
     }
 
     /**
-     * Returns the classname of the whatever you
-     * decided to be the Soloist.
-     *
-     * @return string
-     */
-    public function getSoloistClassName()
-    {
-        return $this->soloist;
-    }
-
-    /**
      * Sets the Soloist.
      *
      * @param  Soloist $soloist The Soloist to set
      */
-    public function setSoloist($soloist)
+    public function setSoloist(Soloist $soloist)
     {
         if( $this->soloist === $soloist ) {
             return;
@@ -103,94 +80,4 @@ class Conductor extends EntityManager
         $this->soloist = $soloist;
     }
 
-    /**
-     * Sets the classname of whatever you
-     * decided to be the Soloist.
-     *
-     * @param string $className The name of the class.
-     */
-    public function setSoloistClassName( $className )
-    {
-        $this->soloistClassName = $className;
-    }
-
-    /**
-     * Gets the name of the default repository to use for implementers of SoloistAwareInterface.
-     *
-     * @return string The name of default repository for implementers of SoloistAwareInterface.
-     */
-    public function getConcertoRepositoryClassName()
-    {
-        return $this->concertoRepositoryClassName;
-    }
-
-    /**
-     * Sets the classname to use when creating a new repository for implementers
-     * of SoloistAwareInterface. Set this up in the Bundle's configuration.
-     * ConcertoEntityRepositoryFactory will make this class if the
-     * SoloistAwareInterface has no custom repository.
-     *
-     * @param string $name The name of the desired repository.
-     */
-    public function setConcertoRepositoryClassName($name)
-    {
-        if($this->concertoRepositoryClassName == $name) {
-            return;
-        } else {
-            $this->concertoRepositoryClassName = $name;
-        }
-    }
-
-
-    /** {@inheritdoc} */
-    public function  persist($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function   remove($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function  refresh($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function   detach($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function    merge($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function contains($entity) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function    flush($entity = null) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args()); }
-    /** {@inheritdoc} */
-    public function     copy($entity, $deep = false) { return $this->callWithoutWrapper(__FUNCTION__, func_get_args());}
-
-    /**
-     * Maps any SoloistAwareFacade in $args to SAF::getSubject(),
-     * otherwise $args remains unchanged.
-     * Then calls $methodName($args) as a regular EntityManager
-     *
-     * @param  string $methodName Name of the method to call.
-     * @param  mixed  $args       Arguments for $methodName.
-     * @return mixed  The result of calling EntityManager::$methodName(unwrapped $args)
-     */
-    private function callWithoutWrapper($methodName, $args)
-    {
-        $unwrapper = function($x)
-                     {
-                         if(is_a($x, 'Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareFacade')) {
-                             return $x->getSubject();
-                         }
-                         return $x;
-                     };
-
-        $args = array_map($unwrapper, $args);
-
-        //the following is faster than a straight call_user_func_array()
-        switch(count($args))
-        {
-            case 0:
-                return parent::$methodName();
-            case 1:
-                return parent::$methodName($args[0]);
-            case 2:
-                return parent::$methodName($args[0], $args[1]);
-            default:
-                return call_user_func_array(['parent', $methodName], $args);
-        }
-    }
 }

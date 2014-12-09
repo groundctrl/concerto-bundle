@@ -19,25 +19,4 @@ class ConcertoTestCase extends \PHPUnit_Framework_TestCase
     {
         return ConcertoTestHelper::createTestConductor();
     }
-
-    function threeTypesOfEntityProvider()
-    {
-        //ECN: EntityClassName
-        //RCN: RepositoryClassName
-
-        $concertoECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoConcertoFakeEntity';
-        $concertoRCN = 'Ctrl\Bundle\ConcertoBundle\ORM\Repository\ConcertoEntityRepository';
-
-        $customECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoCustomFakeEntity';
-        $customRCN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\ORM\Repository\ConcertoFakeEntityCustomRepository';
-
-        $regularECN = 'Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoRegularFakeEntity';
-        $regularRCN = 'Doctrine\ORM\EntityRepository';
-
-        return [
-            [ $concertoECN, $concertoRCN ],
-            [ $customECN,   $customRCN   ],
-            [ $regularECN,  $regularRCN  ]
-        ];
-    }
 }

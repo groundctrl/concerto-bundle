@@ -29,13 +29,11 @@ class FindSoloistListener
      *
      * @param ContainerInterface       $container  The Symfony Container.
      * @param EventDispatcherInterface $dispatcher The EventDispatcher.
-     * @param SoloInterface            $solo       The Solo to use for finding Soloists.
      */
-    public function __construct(ContainerInterface $container, EventDispatcherInterface $dispatcher, SoloInterface $solo)
+    public function __construct(ContainerInterface $container, EventDispatcherInterface $dispatcher)
     {
         $this->container = $container;
         $this->dispatcher = $dispatcher;
-        $this->solo = $solo;
     }
 
     /**
@@ -85,5 +83,16 @@ class FindSoloistListener
     public function getSoloist()
     {
         return $this->soloist;
+    }
+
+    /**
+     * Sets the Solo to use in finding the Soloist.
+     *
+     * @param SoloInterface $solo
+     */
+    public function setSolo(SoloInterface $solo)
+    {
+        if($this->solo === $solo) return;
+        $this->solo = $solo;
     }
 }

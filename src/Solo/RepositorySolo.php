@@ -48,11 +48,9 @@ class RepositorySolo implements SoloInterface
      */
     public function getSoloist(Request $request)
     {
-        $hostName = $request->server->get('SERVER_NAME');
+        $ret = $this->repository->{$this->repoMethodName}($request);
 
-        $ret = $this->repository->{$this->repoMethodName}($hostName);
-
-        if($ret != null && is_a( $ret, 'Ctrl\Bundle\ConcertoBundle\Model\Soloist' ) ) {
+        if(is_a( $ret, 'Ctrl\Bundle\ConcertoBundle\Model\Soloist' ) ) {
             return $ret;
         }
 
@@ -61,8 +59,6 @@ class RepositorySolo implements SoloInterface
             throw new \UnexpectedValueException("The entity found does not extend Soloist: " . get_class($ret));
         }
 
-        throw new \BadMethodCallException("Could not find a soloist using solo: " . get_class()
-            . ". You have configured your " . get_class($this->repository) . " to use method \""
-            . $this->repoMethodName . "\", but that ain't workin'.");
+        return null;
     }
 }

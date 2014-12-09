@@ -1,0 +1,51 @@
+concerto:
+    soloist_class: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestSoloist
+    solo_name: hostname
+    solos:
+        hostname:
+            arguments:
+                - domain
+        repository:
+            arguments:
+                - @concerto.FUNCTEST.reposolo_repository
+                - findClientByDomain
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        entity_managers:
+            default:
+                mappings:
+                    CtrlConcertoBundle:
+                        type: annotation
+                        prefix: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity
+                        dir: "%kernel.root_dir%/../../Fixtures/Entity/"
+                        is_bundle: false
+                filters:
+                    soloist:
+                        class: Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter
+                        enabled: true
+                        parameters:
+                            soloist_id: ~
+
+framework:
+    secret: 'ThisIsNotASecretKey'
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+liip_functional_test: ~
+
+services:
+    concerto.FUNCTEST.reposolo_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity\ConcertoTestSoloistLinkingEntity

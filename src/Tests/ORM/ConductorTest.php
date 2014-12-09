@@ -55,23 +55,4 @@ class ConductorTest extends ConcertoTestCase
     {
         $this->assertInstanceOf('Ctrl\Bundle\ConcertoBundle\ORM\Conductor', $this->createTestConductor());
     }
-
-    /**
-     * @param string $ECN the Entity Class Name
-     * @param string $RCN the Repository Class Name
-     *
-     * @dataProvider threeTypesOfEntityProvider
-     */
-    function testItsGetRepositoryMethodReturnsTheCorrectRepository($ECN, $RCN)
-    {
-        $sut = $this->createTestConductor();
-        $repo = $sut->getRepository($ECN);
-        $this->assertInstanceOf($RCN, $repo);
-    }
-    /* even though I can't test for this, I promise it's true
-    function testAllPersistenceRelatedMethodsCallTheParentWithoutFacade()
-    {
-        $this->markTestIncomplete("test me :(");
-    }
-    */
 }

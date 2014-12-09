@@ -1,14 +1,16 @@
 <?php
 
-namespace Ctrl\Bundle\ConcertoBundle\EventSubscriber;
+namespace Ctrl\Bundle\ConcertoBundle\EventListener;
 
+use Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 
 /**
  * Class ClaimEntitySubscriber
  *
- * Jumps in during Symfony's kernel.request event. OnFlush happens as changes are persisted.
+ * Jumps in during Symfony's kernel.request event. PreFlush happens as changes are persisted.
  * Sets the Soloist on the Entity which is about to be persisted, allowing you to not bother
  * with making sure you set it yourself.
  */
@@ -21,17 +23,17 @@ class ClaimEntitySubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array('onFlush');
+        return [ Events::preFlush ];
     }
 
     /**
      * What to do when it's time to persist data.
      *
-     * @param OnFlushEventArgs $args Arriving here from Symfony's EventDispatcher
+     * @param PreFlushEventArgs $args Arriving here from Symfony's EventDispatcher
      *
      * @throws \UnexpectedValueException if no Soloist available.
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function preFlush(PreFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
 
@@ -41,20 +43,16 @@ class ClaimEntitySubscriber implements EventSubscriber
 
         if(isset($soloist)) {
 
-            foreach($uow->getScheduledEntityInsertions() as $entity)
+            foreach( array_merge( $uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates() ) as $entity )
             {
-                $entity->setSoloist($soloist);
+                if( $entity instanceof SoloistAwareInterface ) {
+                    $entity->setSoloist($soloist);
+                }
             }
-            foreach($uow->getScheduledEntityUpdates() as $entity)
-            {
-                $entity->setSoloist($soloist);
-            }
-
             #foreach($uow->getScheduledEntityDeletions() as $entity)  No need to set soloist since we're deleting
-
         } else {
 
-            throw new \UnexpectedValueException("OnFlush: Soloist should be set by now.");
+            throw new \UnexpectedValueException("PreFlush: Soloist should be set by now.");
         }
     }
 } 

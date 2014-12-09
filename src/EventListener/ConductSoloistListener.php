@@ -6,14 +6,13 @@ use Ctrl\Bundle\ConcertoBundle\Event\SoloEvent;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class ConductEntityManagerListener
+ * Class ConductSoloistListener
  *
  * When a soloist.found event is dispatched, set
  * our Conductor's Soloist to be what was found.
  */
-class ConductEntityManagerListener
+class ConductSoloistListener
 {
-
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $em;
 
@@ -33,6 +32,17 @@ class ConductEntityManagerListener
      */
     public function onSoloistFound(SoloEvent $event)
     {
-        $this->em->setSoloist($event->getSoloist());
+        $soloist = $event->getSoloist();
+        $this->em->setSoloist($soloist);
+
+
+        /** @var \Doctrine\ORM\Query\FilterCollection $filters */
+        $filters = $this->em->getFilters();
+        if ( ! $filters->isEnabled('soloist')) {
+            $filters->enable('soloist');
+        }
+
+        $filter = $filters->getFilter('soloist');
+        $filter->setParameter("soloist_id", $soloist->getId());
     }
 }
