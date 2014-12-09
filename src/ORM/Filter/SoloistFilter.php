@@ -5,6 +5,12 @@ namespace Ctrl\Bundle\ConcertoBundle\ORM\Filter;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
+/**
+ * Class SoloistFilter
+ *
+ * Filter on the Conductor. If we're looking up an entity that implements SoloistAware,
+ * i.e. via a ->findAll(), then this will limit the return to be only those matching the current Soloist.
+ */
 class SoloistFilter extends SQLFilter
 {
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)

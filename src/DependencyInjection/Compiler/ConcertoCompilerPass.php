@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * Class ConcertoCompilerPass
  *
  * Does some Symfony container configuring.
- *   - Replace doctrine's entity manager with our own
+ *   - Replace doctrine's entity manager with our own.
  */
 class ConcertoCompilerPass implements CompilerPassInterface
 {

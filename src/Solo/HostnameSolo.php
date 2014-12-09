@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
  * Class HostnameSolo
  *
  * Strategy for determining Soloist from
- * the SERVER_NAME of your request.
+ * the SERVER_NAME of your request. You provide the name of the field
+ * the hostname is stored on in the Soloist class. This extracts the
+ * hostname ($request->getHost()) and searches the repo on that.
  */
 class HostnameSolo implements SoloInterface
 {
