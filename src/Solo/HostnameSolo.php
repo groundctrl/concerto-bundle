@@ -48,7 +48,7 @@ class HostnameSolo implements SoloInterface
     {
         $hostName = $request->getHost();
         $ret = $this->repository->findOneBy( [ $this->soloistField => $hostName ] );
-        if($ret !== null && is_a( $ret, 'Ctrl\Bundle\ConcertoBundle\Model\Soloist' ) ) {
+        if($ret instanceof Soloist) {
             return $ret;
         }
 
