@@ -37,8 +37,11 @@ class FindSoloistListener
     }
 
     /**
-     * Symfony has a kernel.event method-- this gets called
-     * (before persistence) when that event is dispatched.
+     * This gets called (before persistence) when
+	 * Symfony's HttpKernel gets a request. So pretty
+	 * much any time anything happens, we're determining
+	 * a Soloist.
+	 *
      * Sets the Soloist parameter on the Container.
      *
      * @param GetResponseEvent $event The Event containing
