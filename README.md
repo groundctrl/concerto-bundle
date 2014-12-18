@@ -18,11 +18,11 @@ Requirements
 
 Documentation
 -------------
-[Insallation](Resources/doc/installation.md)
+[Insallation](installation.md)
 
-[Getting Started](Resources/doc/getting_started.md)
+[Getting Started](getting_started.md)
 
-[Examples](Resources/doc/cookbook/examples.md)
+[Examples](cookbook/examples.md)
 
 License
 -------
