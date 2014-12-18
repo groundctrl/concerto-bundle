@@ -1,6 +1,7 @@
 {
     "name": "ctrl/concerto-bundle",
     "description": "Multi Tenancy for Symfony + Doctrine",
+    "keywords": [ "concerto", "concerto-bundle", "tenant", "tenancy", "multi-tenant", "multi-tenancy", "multi tenant", "multi tenancy" ]
     "require": {
         "doctrine/orm": "~2.4",
         "doctrine/doctrine-bundle": "~1.2"
