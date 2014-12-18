@@ -27,12 +27,6 @@ doctrine:
                         prefix: Ctrl\Bundle\ConcertoBundle\Tests\Fixtures\Entity
                         dir: "%kernel.root_dir%/../../Fixtures/Entity/"
                         is_bundle: false
-                filters:
-                    soloist:
-                        class: Ctrl\Bundle\ConcertoBundle\ORM\Filter\SoloistFilter
-                        enabled: true
-                        parameters:
-                            soloist_id: ~
 
 framework:
     secret: 'ThisIsNotASecretKey'
