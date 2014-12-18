@@ -29,7 +29,7 @@ class Retailer extends User implements Soloist
     /**
      * @var Domain
      *
-	 * @ORM\OneToMany(targetEntity="Domain", mappedBy="client")
+	 * @ORM\OneToMany(targetEntity="Domain", mappedBy="retailer")
 	 */
 	private $domains;
 
