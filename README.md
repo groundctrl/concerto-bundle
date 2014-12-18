@@ -27,4 +27,4 @@ Documentation
 License
 -------
 
-This bundle is under the MIT license. See the complete license in the bundle [here](Resources/meta/LICENSE.md).
+This bundle is under the MIT license. See the complete license in the bundle [here](src/Resources/meta/LICENSE.md).
