@@ -1,6 +1,6 @@
 <?php
 
-namespace Ctrl\Bundle\ConcertoBundle\tests;
+namespace Ctrl\Bundle\ConcertoBundle\Tests;
 
 
 class ConcertoTestCase extends \PHPUnit_Framework_TestCase
