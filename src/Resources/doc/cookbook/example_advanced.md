@@ -1,7 +1,7 @@
 # Advanced Example
 
 ## Background
-Let's go with the same background from the [simple example](simple_example.md), except now your `Retailer`s might have multiple subdomains. Instead of a simple string, these will be `Domain` objects this time around, and THOSE will hold information about the `Buyer`s. This extra separation will require us to use the `RepositorySolo` rather than the `HostnameSolo`.
+Let's go with the same background from the [simple example](example_simple.md), except now your `Retailer`s might have multiple subdomains. Instead of a simple string, these will be `Domain` objects this time around, and THOSE will hold information about the `Buyer`s. This extra separation will require us to use the `RepositorySolo` rather than the `HostnameSolo`.
 
 ```php
 

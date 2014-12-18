@@ -8,7 +8,7 @@ A new `Request` is made of your app. What happens, in order:
  
 - [ConductSoloistListener](../../EventListener/ConductSoloistListener.php)
 
-  Acts on `SoloEvents::SOLOIST_FOUND`. Sets the `$soloist` field on the entity manager. Enables the `SoloistFilter` ([here](../../Filter/SoloistFilter.php)) and sets its parameter so your `$em->find`s will only consider those entities that belong to the current `Soloist`.
+  Acts on `SoloEvents::SOLOIST_FOUND`. Sets the `$soloist` field on the entity manager. Enables the `SoloistFilter` ([here](../../ORM/Filter/SoloistFilter.php)) and sets its parameter so your `$em->find`s will only consider those entities that belong to the current `Soloist`.
   
 - [ClaimEntitySubscriber](../../EventListener/ClaimEntitySubscriber.php)
 
