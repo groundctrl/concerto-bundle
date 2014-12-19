@@ -1,6 +1,6 @@
 ConcertoBundle
 ===
-
+[![Build Status](https://travis-ci.org/groundctrl/concerto-bundle.svg?branch=master)]
 ```
 concerto
 noun
