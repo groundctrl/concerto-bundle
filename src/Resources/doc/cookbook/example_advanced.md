@@ -70,7 +70,7 @@ class Buyer extends User implements SoloistAwareInterface
 }
 ```
 
-Now we have our slightly different `Buyer` and `Retailer`. Note that `Buyer` retains its association with `Retailer`, but `Retailer` no longer holds anything about `Buyer`. Also note that `Buyer` now has an annotation for a custom repository class. Here's `Domain`:
+Now we have our slightly different `Buyer` and `Retailer`. Note that `Buyer` retains its association with `Retailer`, but `Retailer` no longer holds anything about `Buyer`. Also note that `Retailer` now has an annotation for a custom repository class. Here's `Domain`:
 
 ```php
 /**
