@@ -132,7 +132,7 @@ class RetailerRepository extends EntityRepository
 
 The configuration for this setup would look like...
 
-```php
+```yml
 # config.yml
 concerto:
     soloist_class: Your\Bundle\YourBundle\Entity\Retailer
@@ -143,7 +143,7 @@ concerto:
                 - @your_soloist_repository
                 - forRequest
 ```
-```php
+```yml
 # services.yml
 
 services:

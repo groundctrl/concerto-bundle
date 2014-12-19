@@ -2,7 +2,7 @@
 
 Concerto uses a `Solo` ('Strategy') to determine the `Soloist` ('Tenant') from Symfony's `Request` object. You'll need to configure the name of the `Soloist` class, the name of the `Solo` class, and its constructor arguments.
 
-```php
+```yml
 #config.yml
 
 concerto:
