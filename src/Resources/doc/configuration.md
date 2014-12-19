@@ -1,6 +1,6 @@
 # Configuration
 
-Concerto uses a `Solo` ('Strategy') to determine the `Soloist` ('Tenant') from Symfony's `Request` object. You'll need to configure the name of the `Soloist` class, the name of the `Solo` class, and its constructor arguments.
+Concerto uses a `Solo` ('Strategy') to determine the `Soloist` ('Tenant') from Symfony's `Request` object. You'll need to configure the name of the `Soloist` class, the name of the `Solo` as written in `config.yml`, and its constructor arguments.
 
 ```yml
 #config.yml
