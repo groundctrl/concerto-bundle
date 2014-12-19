@@ -2,6 +2,9 @@
 <phpunit bootstrap="./src/Tests/bootstrap.php"
          colors="true">
          <!-- printerClass="NyanCat\PHPUnit\ResultPrinter" -->
+<logging>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
+</logging>
 <testsuites>
     <testsuite name="CtrlConcertoBundle test suite">
         <directory suffix="Test.php">./src/Tests</directory>
