@@ -2,15 +2,16 @@
 
 Just require Concerto in Composer.
 
-```yml
+```json
 //composer.json
 
 "require": {
-        ...
+
+        //...
         
         "ctrl/concerto-bundle": "0.8.*"
         
-        ...
+        //...
     }
 ```
 
