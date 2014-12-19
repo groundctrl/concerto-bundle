@@ -2,7 +2,7 @@
 
 Just require Concerto in Composer.
 
-```json
+```yml
 //composer.json
 
 "require": {
