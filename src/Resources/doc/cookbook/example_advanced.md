@@ -119,13 +119,13 @@ class RetailerRepository extends EntityRepository
 {
 	public function forRequest(Request $request)
 	{
-        $domain = $reuest->getHost();
-		$em     = $this->getEntityManager();
+            $domain = $request->getHost();
+            $em     = $this->getEntityManager();
 
-        $query = $em->createQuery('SELECT r,d FROM YourYourBundle:Domain d JOIN d.retailer r WHERE d.domain = :domain');
-        $query->setParameter('domain', $domain);
+            $query = $em->createQuery('SELECT r,d FROM YourYourBundle:Domain d JOIN d.retailer r WHERE d.domain = :domain');
+            $query->setParameter('domain', $domain);
 
-		return $query->getResult()[0]->getRetailer();
+	    return $query->getResult()[0]->getRetailer();
 	}
 }
 ```
