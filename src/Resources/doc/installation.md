@@ -6,12 +6,13 @@ Just require Concerto in Composer.
 //composer.json
 
 "require": {
-        ...
+
+        //...
         
         "ctrl/concerto-bundle": "0.8.*"
         
-        ...
-    }
+        //...
+}
 ```
 
 And register the bundle in your app

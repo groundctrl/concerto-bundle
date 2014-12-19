@@ -83,7 +83,7 @@ class Buyer extends User implements SoloistAwareInterface
 
 The configuration for this setup would look like...
 
-```php
+```yml
 concerto:
     soloist_class: Your\Bundle\YourBundle\Entity\Retailer
     solo_name: hostname

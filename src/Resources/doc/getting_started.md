@@ -2,8 +2,8 @@
 
 1. [Install it](installation.md).
 
-- [Configure it](configuration.md).
-- Implement `Soloist` on your tenant class
+2. [Configure it](configuration.md).
+3. Implement `Soloist` on your tenant class
 
   ```php
   //Your\Bundle\YourBundle\YourTenantEntity;
@@ -22,7 +22,7 @@
       //...
   }
   ```
-- Implement `SoloistAwareInterface` on everything that needs to know about its `Soloist`
+4. Implement `SoloistAwareInterface` on everything that needs to know about its `Soloist`
 
   ```php
   //YourUserEntity
@@ -39,7 +39,7 @@
       //...
   }
   ```
-- ????
-- Profit!
+5. ????
+6. Profit!
 
 Also check out the [examples](cookbook/examples.md).

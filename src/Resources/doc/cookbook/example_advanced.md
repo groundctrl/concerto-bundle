@@ -70,7 +70,7 @@ class Buyer extends User implements SoloistAwareInterface
 }
 ```
 
-Now we have our slightly different `Buyer` and `Retailer`. Note that `Buyer` retains its association with `Retailer`, but `Retailer` no longer holds anything about `Buyer`. Also note that `Buyer` now has an annotation for a custom repository class. Here's `Domain`:
+Now we have our slightly different `Buyer` and `Retailer`. Note that `Buyer` retains its association with `Retailer`, but `Retailer` no longer holds anything about `Buyer`. Also note that `Retailer` now has an annotation for a custom repository class. Here's `Domain`:
 
 ```php
 /**
@@ -119,20 +119,20 @@ class RetailerRepository extends EntityRepository
 {
 	public function forRequest(Request $request)
 	{
-        $domain = $reuest->getHost();
-		$em     = $this->getEntityManager();
+            $domain = $request->getHost();
+            $em     = $this->getEntityManager();
 
-        $query = $em->createQuery('SELECT r,d FROM YourYourBundle:Domain d JOIN d.retailer r WHERE d.domain = :domain');
-        $query->setParameter('domain', $domain);
+            $query = $em->createQuery('SELECT r,d FROM YourYourBundle:Domain d JOIN d.retailer r WHERE d.domain = :domain');
+            $query->setParameter('domain', $domain);
 
-		return $query->getResult()[0]->getRetailer();
+	    return $query->getResult()[0]->getRetailer();
 	}
 }
 ```
 
 The configuration for this setup would look like...
 
-```php
+```yml
 # config.yml
 concerto:
     soloist_class: Your\Bundle\YourBundle\Entity\Retailer
@@ -143,7 +143,7 @@ concerto:
                 - @your_soloist_repository
                 - forRequest
 ```
-```php
+```yml
 # services.yml
 
 services:

@@ -1,6 +1,10 @@
 ConcertoBundle
 ===
 [![Build Status](https://travis-ci.org/groundctrl/concerto-bundle.svg?branch=master)](https://travis-ci.org/groundctrl/concerto-bundle)
+[![Latest Stable Version](https://poser.pugx.org/ctrl/concerto-bundle/v/stable.svg)](https://packagist.org/packages/ctrl/concerto-bundle)
+[![Total Downloads](https://poser.pugx.org/ctrl/concerto-bundle/downloads.svg)](https://packagist.org/packages/ctrl/concerto-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/ctrl/concerto-bundle/v/unstable.svg)](https://packagist.org/packages/ctrl/concerto-bundle) 
+[![License](https://poser.pugx.org/ctrl/concerto-bundle/license.svg)](https://packagist.org/packages/ctrl/concerto-bundle)
 ```
 concerto
 noun
