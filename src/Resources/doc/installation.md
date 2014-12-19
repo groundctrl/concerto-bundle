@@ -12,7 +12,7 @@ Just require Concerto in Composer.
         "ctrl/concerto-bundle": "0.8.*"
         
         //...
-    }
+}
 ```
 
 And register the bundle in your app
