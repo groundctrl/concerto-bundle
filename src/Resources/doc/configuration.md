@@ -1,8 +1,8 @@
 # Configuration
 
-Concerto uses a `Solo` ('Strategy') to determine the `Soloist` ('Tenant') from Symfony's `Request` object. You'll need to configure the name of the `Soloist` class, the name of the `Solo` class, and its constructor arguments.
+Concerto uses a `Solo` ('Strategy') to determine the `Soloist` ('Tenant') from Symfony's `Request` object. You'll need to configure the name of the `Soloist` class, the name of the `Solo` as written in `config.yml`, and its constructor arguments.
 
-```php
+```yml
 #config.yml
 
 concerto:
@@ -20,10 +20,15 @@ concerto:
     # @concerto.solo.
     
     hostname:
+    # HostnameSolo takes one argument: The name of the field on your Soloist entities which holds
+    # (you guessed it) the hostname.
       arguments:
         - fieldName
         
     repository:
+    # RepositorySolo takes two arguments: A repository-as-a-service, and the name of the method
+    # on that repository to use to do the lookup. That method must take only one argument: the 
+    # Request.
       arguments:
         - @repoName
         - repoMethodName
@@ -33,7 +38,7 @@ concerto:
       arguments:
         - ARG1
         - ARG2
-        ...
+        # ...
         - ARGN
       
     your_custom_solo_2: 
@@ -48,7 +53,7 @@ A properly configured `Solo` has the form:
   arguments:
     - <constructor argument 1>
     - <constructor argument 2>
-    ...
+    # ...
     - <constructor argument n>
 ```
 OR

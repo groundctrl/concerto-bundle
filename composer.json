@@ -13,7 +13,8 @@
         "liip/functional-test-bundle": "~1.0",
         "phpunit/phpunit": "~4.0",
         "ptrofimov/xpmock": "~1.1",
-        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
