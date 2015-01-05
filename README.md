@@ -1,6 +1,8 @@
 ConcertoBundle
 ===
 [![Build Status](https://travis-ci.org/groundctrl/concerto-bundle.svg?branch=master)](https://travis-ci.org/groundctrl/concerto-bundle)
+[![Code Climate](https://codeclimate.com/github/groundctrl/concerto-bundle/badges/gpa.svg)](https://codeclimate.com/github/groundctrl/concerto-bundle)
+[![Test Coverage](https://codeclimate.com/github/groundctrl/concerto-bundle/badges/coverage.svg)](https://codeclimate.com/github/groundctrl/concerto-bundle)
 [![Latest Stable Version](https://poser.pugx.org/ctrl/concerto-bundle/v/stable.svg)](https://packagist.org/packages/ctrl/concerto-bundle)
 [![Total Downloads](https://poser.pugx.org/ctrl/concerto-bundle/downloads.svg)](https://packagist.org/packages/ctrl/concerto-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/ctrl/concerto-bundle/v/unstable.svg)](https://packagist.org/packages/ctrl/concerto-bundle) 
@@ -23,7 +25,7 @@ Requirements
 
 Documentation
 -------------
-[Insallation](src/Resources/doc/installation.md)
+[Installation](src/Resources/doc/installation.md)
 
 [Getting Started](src/Resources/doc/getting_started.md)
 
