@@ -23,7 +23,7 @@ Requirements
 
 Documentation
 -------------
-[Insallation](src/Resources/doc/installation.md)
+[Installation](src/Resources/doc/installation.md)
 
 [Getting Started](src/Resources/doc/getting_started.md)
 
