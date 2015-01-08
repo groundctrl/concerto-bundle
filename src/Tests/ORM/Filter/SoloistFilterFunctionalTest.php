@@ -4,6 +4,7 @@ namespace Ctrl\Bundle\ConcertoBundle\Tests\ORM\Filter;
 
 use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoWebTestCase;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Doctrine\ORM\Mapping\MappingException;
 
 class SoloistFilterFunctionalTest extends ConcertoWebTestCase
 {
@@ -33,4 +34,16 @@ class SoloistFilterFunctionalTest extends ConcertoWebTestCase
         $this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE);
         $this->assertCount(1, $this->em->getRepository('CtrlConcertoBundle:ConcertoTestAwareEntity')->findAll() );
     }
+
+	/**
+	 * @expectedException \Doctrine\ORM\Mapping\MappingException
+	 * @expectedExceptionMessage has no associations which implement Soloist.
+	 */
+	function testFilterErrorsWhenSoloistAwareEntityHasNoSoloistAssociation()
+	{
+		$this->loadFixtures( ['Ctrl\Bundle\ConcertoBundle\DataFixtures\ORM\LoadBadEntityData'] );
+		$GRE = $this->getGRE();
+		$this->dispatcher->dispatch(KernelEvents::REQUEST, $GRE);
+		$this->em->getRepository('CtrlConcertoBundle:ConcertoTestBadAwareEntity')->findAll();
+	}
 }

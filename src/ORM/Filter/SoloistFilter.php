@@ -3,6 +3,7 @@
 namespace Ctrl\Bundle\ConcertoBundle\ORM\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
 /**
@@ -13,17 +14,37 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
  */
 class SoloistFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
-    {
-        // Check if the entity implements SoloistAwareInterface and the parameter exists.
-        if ("''" === $this->getParameter('soloist_id')) {
-            return '';
-        } elseif (!$targetEntity->reflClass->implementsInterface('Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface')) {
-            return '';
-        }
+	public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+	{
+		if ( $this->emptyFilterCheck($targetEntity->reflClass) ) {
+			return '';
+		}
 
-        $columnId = $targetEntity->associationMappings['soloist']['joinColumns'][0]['name'];
+		$columnId = $this->getSoloistColumnId($targetEntity->associationMappings);
 
-        return $targetTableAlias.'.'.$columnId.' = '.$this->getParameter('soloist_id'); // getParameter applies quoting automatically
-    }
+		if( $columnId !== null ) {
+			return $targetTableAlias.'.'.$columnId.' = '.$this->getParameter('soloist_id');
+			// getParameter applies quoting automatically
+		}
+
+		throw new MappingException('Entity of class ' . $targetEntity->getName()
+			. ' has no associations which implement Soloist.');
+	}
+
+	private function emptyFilterCheck(\ReflectionClass $reflClass)
+	{
+		return (
+			$this->getParameter('soloist_id') === "''" ||
+			!$reflClass->implementsInterface('Ctrl\Bundle\ConcertoBundle\Model\SoloistAwareInterface')
+		);
+	}
+
+	private function getSoloistColumnId($mappings)
+	{
+		return array_reduce($mappings, function($acc, $x){
+			return is_a($x['targetEntity'], 'Ctrl\Bundle\ConcertoBundle\Model\Soloist', true)
+				?  $x['joinColumns'][0]['name']
+				:  $acc;
+		});
+	}
 }
