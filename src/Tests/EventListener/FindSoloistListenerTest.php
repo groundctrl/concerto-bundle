@@ -9,7 +9,6 @@ use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\Request;
 
 class FindSoloistListenerTest extends ConcertoTestCase
