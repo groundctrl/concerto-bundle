@@ -9,7 +9,6 @@ use Ctrl\Bundle\ConcertoBundle\Tests\ConcertoTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\Request;
 
 class FindSoloistListenerTest extends ConcertoTestCase
@@ -39,7 +38,9 @@ class FindSoloistListenerTest extends ConcertoTestCase
         $this->solo = $this->mock('Ctrl\Bundle\ConcertoBundle\Solo\HostnameSolo');
         $this->sloEvtMock = $this->mock('Ctrl\Bundle\ConcertoBundle\Event\SoloEvent');
 
-        $this->soloistMock = $this->mock('Ctrl\Bundle\ConcertoBundle\Model\Soloist')->getId(13)->new();
+		$this->soloistMock = $this->getMockBuilder('Ctrl\Bundle\ConcertoBundle\Model\Soloist')
+			->setMethods(['getId'])
+			->getMock();
 
         #$this->requestStub = $this->mock('Symfony\Component\HttpFoundation\Request', null);
         $this->requestStub = new Request();
@@ -110,7 +111,7 @@ class FindSoloistListenerTest extends ConcertoTestCase
 
         $dispatcher = $this->mockTwoDispatches(
             [SoloEvents::SOLOIST_NOT_FOUND, $sloEvtMock],
-            [SoloEvents::SOLOIST_FOUND, null]
+            [SoloEvents::SOLOIST_FOUND, $this->soloistMock]
         );
 
         $container = $this->cont
